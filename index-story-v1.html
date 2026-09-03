@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Valeo · Whipped body butter, five worlds to fall into</title>
+<meta name="description" content="Small-batch whipped body butter and sugar scrubs from Washington. Five scents, one jar, and a sample flight for the undecided.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='7' fill='%231B261E'/><circle cx='16' cy='16' r='7' fill='%23F2ECDF'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500&display=swap">
+<link rel="stylesheet" href="scrollcraft.css">
+<style>
+  :root {
+    --sc-canvas:      #1B261E;
+    --sc-surface:     #243228;
+    --sc-ink:         #F2ECDF;
+    --sc-ink-soft:    #B9B4A4;
+    --sc-accent:      #E3A75A;
+    --sc-accent-ink:  #1B261E;
+    --sc-font-display: "Instrument Serif", "Times New Roman", Georgia, serif;
+    --sc-font-text:    "Outfit", "Helvetica Neue", Arial, sans-serif;
+    --sc-font-mono:    "Outfit", ui-monospace, monospace;
+    --sc-shadow-color: 140 20% 4%;
+    --sc-r-sm: 2px; --sc-r-md: 4px; --sc-r-lg: 8px;
+  }
+  html { background: var(--sc-canvas); }
+  body { font-family: var(--sc-font-text); font-weight: 300; }
+  .sc-display { font-weight: 400; letter-spacing: -0.015em; }
+  .sc-display em { font-style: italic; font-weight: 400; }
+  .sc-label { font-family: var(--sc-font-text); font-weight: 500; }
+
+  /* ---------- chrome ---------- */
+  .site-bar {
+    position: fixed; inset-inline: 0; top: 0; z-index: var(--sc-z-chrome);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.1rem var(--sc-gutter);
+    mix-blend-mode: difference; color: #F2ECDF;
+    pointer-events: none;
+  }
+  .site-bar > * { pointer-events: auto; }
+  .mark { font-family: var(--sc-font-display); font-size: 1.55rem; letter-spacing: 0.28em; text-decoration: none; color: inherit; }
+  .bar-cta { font-size: var(--sc-t-xs); letter-spacing: 0.16em; text-transform: uppercase; color: inherit; text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: 3px; }
+
+  /* ---------- 1 · hero (flow) ---------- */
+  .hero { min-height: 100svh; display: grid; align-items: center; padding-block: clamp(6rem, 14vh, 9rem) var(--sc-section); }
+  .hero__grid { display: grid; grid-template-columns: 1.05fr 0.95fr; gap: clamp(2rem, 5vw, 5rem); align-items: center; }
+  .hero__copy { display: flex; flex-direction: column; gap: var(--sc-5); }
+  .hero__jar { display: grid; place-items: center; }
+  .hero__jar img { width: min(100%, 44rem); height: auto; filter: drop-shadow(0 30px 60px rgba(0,0,0,0.45)); }
+  .cta {
+    display: inline-flex; align-items: center; gap: 0.8rem; align-self: flex-start;
+    background: var(--sc-accent); color: var(--sc-accent-ink);
+    font-size: var(--sc-t-sm); font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 1.05rem 1.7rem; border-radius: var(--sc-r-pill); text-decoration: none;
+    box-shadow: var(--sc-e2);
+  }
+  .cta svg { width: 18px; height: 18px; }
+  .hero__line { font-size: var(--sc-t-lg); line-height: 1.45; max-width: 34ch; color: var(--sc-ink); }
+
+  /* ---------- 2 · the worlds (pin) ---------- */
+  .worlds .sc-stage { background: #E4E7D3; }
+  .world { position: absolute; inset: 0; }
+  .world img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .world__clip { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 400ms var(--sc-ease-out); }
+  .world__clip.is-live { opacity: 1; }
+  .world__col { position: absolute; left: 0; top: 0; bottom: 0; width: min(46rem, 58vw);
+    background: linear-gradient(90deg, rgba(242,236,223,0.82) 0%, rgba(242,236,223,0.62) 60%, rgba(242,236,223,0) 100%); }
+  .world--dark .world__col { background: linear-gradient(90deg, rgba(27,38,30,0.78) 0%, rgba(27,38,30,0.55) 60%, rgba(27,38,30,0) 100%); }
+  .jar-pin { position: absolute; left: 63%; top: 50%; translate: -50% -48%; z-index: 5; width: min(30vw, 54svh); pointer-events: none; }
+  .jar-pin img { width: 100%; height: auto; filter: drop-shadow(0 34px 50px rgba(20,16,8,0.35)); }
+  .scent { position: absolute; z-index: var(--sc-z-copy); left: var(--sc-gutter); top: 50%; translate: 0 -50%;
+    display: flex; flex-direction: column; gap: var(--sc-4); max-width: min(30rem, 40vw);
+    --sc-ink: #1B261E; --sc-ink-soft: #4D5546; color: var(--sc-ink); }
+  .scent--dark { --sc-ink: #F2ECDF; --sc-ink-soft: #C9C1AE; color: var(--sc-ink); }
+  .scent .sc-display { color: var(--sc-ink); font-size: clamp(3rem, 1.6rem + 6vw, 7rem); }
+  .scent__note { font-family: var(--sc-font-display); font-style: italic; font-size: var(--sc-t-xl); line-height: 1.2; color: var(--sc-ink); max-width: 22ch; }
+  .scent__meta { display: flex; gap: 1.6rem; align-items: baseline; font-size: var(--sc-t-sm); letter-spacing: 0.1em; text-transform: uppercase; color: var(--sc-ink-soft); }
+  .scent__meta a { color: var(--sc-ink); text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: 2px; }
+  .scent__meta a:hover { color: var(--sc-accent); border-color: var(--sc-accent); }
+  .scent--dark .scent__meta a:hover { color: #F0C27B; border-color: #F0C27B; }
+  .rail { position: absolute; z-index: var(--sc-z-copy); left: var(--sc-gutter); right: var(--sc-gutter); bottom: clamp(1.4rem, 4vh, 2.6rem);
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; mix-blend-mode: difference; color: #F2ECDF; }
+  .rail::before { content: ""; grid-column: 1 / -1; height: 1px; background: rgba(242,236,223,0.35); margin-bottom: 0.7rem; }
+  .rail::after { content: ""; position: absolute; left: 0; top: 0; height: 1px; background: #F2ECDF; width: calc(var(--sc-p, 0) * 100%); }
+  .rail span { font-size: var(--sc-t-xs); letter-spacing: 0.14em; text-transform: uppercase; }
+
+  /* ---------- 3 · made (flow) ---------- */
+  .made { background: #1B261E; }
+  .made .sc-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem, 6vw, 6rem); align-items: center; }
+  .made figure { margin: 0; }
+  .made img { width: 100%; height: auto; border-radius: var(--sc-r-lg); }
+  .made p { color: var(--sc-ink-soft); font-size: var(--sc-t-base); line-height: var(--sc-leading-body); max-width: 48ch; }
+  .made p strong { color: var(--sc-ink); font-weight: 400; }
+  .made .motto { font-family: var(--sc-font-display); font-style: italic; font-size: var(--sc-t-xl); color: var(--sc-accent); }
+
+  /* ---------- 4 · ways in (pan) ---------- */
+  .ways .sc-stage { background: var(--sc-surface); display: flex; align-items: center; }
+  .ways-rail { display: flex; gap: clamp(1.5rem, 3vw, 3rem); padding-inline: var(--sc-gutter); align-items: stretch; width: max-content; }
+  .ways-rail > * { flex: 0 0 auto; }
+  .ways__lead { width: clamp(20rem, 30vw, 30rem); display: flex; flex-direction: column; justify-content: center; gap: var(--sc-4); padding-right: 2rem; }
+  .ways__lead p { color: var(--sc-ink-soft); font-size: var(--sc-t-lg); line-height: 1.4; max-width: 24ch; }
+  .way { width: clamp(20rem, 27vw, 26rem); display: flex; flex-direction: column; justify-content: space-between; gap: var(--sc-6);
+    padding: clamp(1.6rem, 2.4vw, 2.4rem); border-radius: var(--sc-r-lg);
+    background: color-mix(in oklab, var(--sc-ink) 5%, var(--sc-surface)); box-shadow: var(--sc-e1), var(--sc-edge); }
+  .way--lit { background: var(--sc-accent); color: var(--sc-accent-ink); --sc-ink: #1B261E; --sc-ink-soft: #3D4A3F; }
+  .way h3 { font-family: var(--sc-font-display); font-weight: 400; font-size: var(--sc-t-2xl); line-height: 1; margin: 0; color: var(--sc-ink); letter-spacing: -0.01em; }
+  .way p { color: var(--sc-ink-soft); margin: 0; line-height: 1.5; }
+  .way__foot { display: flex; justify-content: space-between; align-items: baseline; font-size: var(--sc-t-sm); letter-spacing: 0.1em; text-transform: uppercase; color: var(--sc-ink); }
+  .way__foot a { color: inherit; text-decoration: none; border-bottom: 1px solid currentColor; padding-bottom: 2px; }
+  .ways__note { width: clamp(16rem, 22vw, 22rem); display: flex; align-items: center; color: var(--sc-ink-soft); font-size: var(--sc-t-base); line-height: 1.5; padding-right: var(--sc-gutter); }
+  @media (prefers-reduced-motion: no-preference) {
+    .ways-rail > * + * + * { opacity: calc(0.55 + var(--sc-p, 0) * 0.9); transform: translateY(calc((1 - var(--sc-p, 0)) * 18px)); }
+  }
+
+  /* ---------- 5 · close (pin) ---------- */
+  .close .sc-stage { display: flex; flex-direction: column; justify-content: center; background:
+    radial-gradient(60vmax 60vmax at var(--sc-mx, 50%) var(--sc-my, 45%), color-mix(in oklab, var(--sc-accent) 18%, var(--sc-canvas)) 0%, var(--sc-canvas) 60%); }
+  .close__inner { display: flex; flex-direction: column; align-items: center; gap: var(--sc-6); text-align: center; padding-inline: var(--sc-gutter); }
+  .close__inner .sc-display { max-width: 9ch; }
+  .close__inner .sc-display em { color: var(--sc-accent); }
+  .foot { position: absolute; inset-inline: var(--sc-gutter); bottom: 1.4rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap;
+    font-size: var(--sc-t-xs); letter-spacing: 0.12em; text-transform: uppercase; color: var(--sc-ink-soft); }
+  .foot a { color: inherit; text-decoration: none; }
+  .foot a:hover { color: var(--sc-ink); }
+  .foot nav { display: flex; gap: 1.4rem; }
+
+  .scent__meta span, .scent__meta a { white-space: nowrap; }
+  @media (max-width: 1180px) and (min-width: 861px) {
+    .jar-pin { left: 68%; width: min(30vw, 48svh); }
+    .scent { max-width: min(26rem, 40vw); }
+    .scent .sc-display { font-size: clamp(2.6rem, 1.2rem + 5vw, 5rem); }
+  }
+
+  /* ---------- phone ---------- */
+  @media (max-width: 860px) {
+    .hero { padding-top: 5.5rem; }
+    .hero__grid { grid-template-columns: 1fr; gap: 2rem; }
+    .hero .sc-display--xl { font-size: var(--sc-t-2xl); }
+    .hero__jar { order: -1; }
+    .hero__jar img { width: min(78vw, 22rem); }
+    .jar-pin { width: min(62vw, 30svh); top: 42%; }
+    .world__col { width: 100%; height: 52%; top: auto; bottom: 0;
+      background: linear-gradient(180deg, rgba(242,236,223,0) 0%, rgba(242,236,223,0.78) 35%, rgba(242,236,223,0.9) 100%); }
+    .world--dark .world__col { background: linear-gradient(180deg, rgba(27,38,30,0) 0%, rgba(27,38,30,0.78) 35%, rgba(27,38,30,0.9) 100%); }
+    .scent { top: auto; bottom: clamp(4.6rem, 12vh, 7rem); translate: 0 0; max-width: calc(100vw - 2 * var(--sc-gutter)); gap: 0.6rem; }
+    .scent .sc-display { font-size: clamp(2.4rem, 11vw, 3.4rem); }
+    .scent__note { font-size: var(--sc-t-lg); }
+    .rail span { font-size: 0.62rem; letter-spacing: 0.06em; }
+    .rail span:nth-child(n) { overflow: hidden; white-space: nowrap; text-overflow: clip; padding-right: 0.4rem; }
+    .made .sc-wrap { grid-template-columns: 1fr; }
+    .ways__lead { width: 78vw; }
+    .way { width: 76vw; }
+    .ways__note { width: 70vw; }
+    .close__inner .sc-display { font-size: var(--sc-t-2xl); }
+  }
+</style>
+</head>
+<body>
+
+<span data-sc-progress></span>
+<div class="sc-grain" aria-hidden="true"></div>
+
+<header class="site-bar">
+  <a class="mark" href="#top" aria-label="Valeo">VALEO</a>
+  <a class="bar-cta" href="#ways">Build a sample flight</a>
+</header>
+
+<main id="top">
+
+  <!-- 1 · ARRIVE: flow. The jar, alone, and one promise. -->
+  <section class="hero" data-sc-act="flow" data-sc-drift="#1B261E">
+    <div class="sc-wrap hero__grid">
+      <div class="hero__copy" data-sc-in data-sc-stagger="80">
+        <h1 class="sc-display sc-display--xl">One jar.<br>Five worlds<br>to <em>fall into.</em></h1>
+        <p class="hero__line">Whipped body butter and sugar scrubs, made by hand in small batches in Washington and scented with ingredients you can see.</p>
+        <a class="cta" href="#ways" data-sc-magnet="0.22">Build a sample flight
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+      <figure class="hero__jar" data-sc-in>
+        <img src="assets/jar.png" width="902" height="858" alt="An open jar of Valeo whipped body butter, lid resting beside it, one swipe taken from the top." decoding="async" fetchpriority="high">
+      </figure>
+    </div>
+  </section>
+
+  <!-- 2 · THE WORLDS: pin. The signature move: the jar stays, the world changes. -->
+  <section id="scents" class="worlds" data-sc-act="pin" data-sc-span="6.5" data-sc-drift="#1B261E">
+    <div data-sc-stage>
+
+      <div class="world" data-sc-cue="0 1 0 0" data-sc-rise="0" aria-hidden="true">
+        <picture>
+          <source media="(max-width: 700px)" srcset="assets/world-pistachio-m.jpg">
+          <img src="assets/world-pistachio.jpg" alt="" decoding="async">
+        </picture>
+        <video class="world__clip" data-src="assets/w-pistachio.mp4" data-src-mobile="assets/w-pistachio-m.mp4" muted playsinline preload="none" aria-hidden="true"></video>
+        <div class="world__col"></div>
+      </div>
+      <div class="world" data-sc-cue="0.19 1 0.09 0" data-sc-rise="0" aria-hidden="true">
+        <picture>
+          <source media="(max-width: 700px)" srcset="assets/world-vanilla-m.jpg">
+          <img src="assets/world-vanilla.jpg" alt="" decoding="async">
+        </picture>
+        <video class="world__clip" data-src="assets/w-vanilla.mp4" data-src-mobile="assets/w-vanilla-m.mp4" muted playsinline preload="none" aria-hidden="true"></video>
+        <div class="world__col"></div>
+      </div>
+      <div class="world" data-sc-cue="0.39 1 0.11 0" data-sc-rise="0" aria-hidden="true">
+        <picture>
+          <source media="(max-width: 700px)" srcset="assets/world-pumpkin-m.jpg">
+          <img src="assets/world-pumpkin.jpg" alt="" decoding="async">
+        </picture>
+        <video class="world__clip" data-src="assets/w-pumpkin.mp4" data-src-mobile="assets/w-pumpkin-m.mp4" muted playsinline preload="none" aria-hidden="true"></video>
+        <div class="world__col"></div>
+      </div>
+      <div class="world world--dark" data-sc-cue="0.59 1 0.16 0" data-sc-rise="0" aria-hidden="true">
+        <picture>
+          <source media="(max-width: 700px)" srcset="assets/world-coffee-m.jpg">
+          <img src="assets/world-coffee.jpg" alt="" decoding="async">
+        </picture>
+        <video class="world__clip" data-src="assets/w-coffee.mp4" data-src-mobile="assets/w-coffee-m.mp4" muted playsinline preload="none" aria-hidden="true"></video>
+        <div class="world__col"></div>
+      </div>
+      <div class="world" data-sc-cue="0.79 1 0.3 0" data-sc-rise="0" aria-hidden="true">
+        <picture>
+          <source media="(max-width: 700px)" srcset="assets/world-chamomile-m.jpg">
+          <img src="assets/world-chamomile.jpg" alt="" decoding="async">
+        </picture>
+        <video class="world__clip" data-src="assets/w-chamomile.mp4" data-src-mobile="assets/w-chamomile-m.mp4" muted playsinline preload="none" aria-hidden="true"></video>
+        <div class="world__col"></div>
+      </div>
+
+      <div class="jar-pin" aria-hidden="true">
+        <img src="assets/jar.png" width="902" height="858" alt="" decoding="async">
+      </div>
+
+      <div class="scent" data-sc-cue="0 0.21 0">
+        <h2 class="sc-display">Pistachio<br>Salted Caramel</h2>
+        <p class="scent__note">Roasted pistachio, burnt sugar, a flake of sea salt.</p>
+        <div class="scent__meta"><span>Butter or scrub · from $10</span><a href="#ways">Choose this one</a></div>
+      </div>
+      <div class="scent" data-sc-cue="0.21 0.41">
+        <h2 class="sc-display">Cashmere<br>Vanilla</h2>
+        <p class="scent__note">Warm vanilla bean and soft musk. Your favourite sweater, as a scent.</p>
+        <div class="scent__meta"><span>Butter or scrub · from $10</span><a href="#ways">Choose this one</a></div>
+      </div>
+      <div class="scent" data-sc-cue="0.41 0.61">
+        <h2 class="sc-display">Pumpkin<br>Marshmallow</h2>
+        <p class="scent__note">Toasted marshmallow, pumpkin, a pinch of nutmeg. This season only.</p>
+        <div class="scent__meta"><span>Butter or scrub · from $10</span><a href="#ways">Choose this one</a></div>
+      </div>
+      <div class="scent scent--dark" data-sc-cue="0.61 0.81">
+        <h2 class="sc-display">Coffee</h2>
+        <p class="scent__note">Fresh-roasted bean, crema, a drop of cream. Pairs with the coffee scrub.</p>
+        <div class="scent__meta"><span>Butter or coffee scrub · from $10</span><a href="#ways">Choose this one</a></div>
+      </div>
+      <div class="scent" data-sc-cue="0.80 1 0.25 0.02">
+        <h2 class="sc-display">Chamomile<br>Lavender</h2>
+        <p class="scent__note">Chamomile, lavender, clean linen. The calm one.</p>
+        <div class="scent__meta"><span>Butter or scrub · from $10</span><a href="#ways">Choose this one</a></div>
+      </div>
+
+      <div class="rail" aria-hidden="true">
+        <span>Pistachio</span><span>Vanilla</span><span>Pumpkin</span><span>Coffee</span><span>Chamomile</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 · MADE: flow. The only act that reads like a document. -->
+  <section class="made sc-section" data-sc-act="flow" data-sc-drift="#1B261E" style="padding-top: clamp(2.5rem, 6vw, 5rem);">
+    <div class="sc-wrap">
+      <figure data-sc-reveal="left" data-sc-reveal-at="0.12 0.55">
+        <img src="assets/hero-jar.jpg" width="1536" height="1024" alt="The open jar of whipped body butter beside its wooden lid on a cream table." decoding="async">
+      </figure>
+      <div class="sc-stack" data-sc-in data-sc-stagger="70">
+        <h2 class="sc-display sc-display--lg">Whipped, <em>not poured.</em></h2>
+        <p>Every jar starts as <strong>shea, cocoa and mango butter</strong>, whipped with jojoba and castor oil until it holds a peak. The scent comes from essential oils and the ingredients you just scrolled past. Nothing in it that isn't on the label.</p>
+        <p>Made in small batches in Washington by Shauna, who named it after the Latin for what she wanted it to say back to you:</p>
+        <p class="motto">I am able. I am strong.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 · WAYS IN: pan. A range, read sideways. -->
+  <section id="ways" class="ways" data-sc-act="pan" data-sc-span="5" data-sc-drift="#243228">
+    <div data-sc-stage>
+      <div class="ways-rail" data-sc-pan="0.06">
+        <div class="ways__lead">
+          <h2 class="sc-display sc-display--lg">Can't choose?<br><em>Don't.</em></h2>
+          <p>Three ways in. Start small, or start with the one you already know.</p>
+        </div>
+        <article class="way way--lit" data-sc-tilt="6">
+          <div class="sc-stack">
+            <h3>The sample flight</h3>
+            <p>Five minis, any five scents. The way to find yours before you commit to a jar.</p>
+          </div>
+          <div class="way__foot"><span>$20</span><a href="#">Build mine</a></div>
+        </article>
+        <article class="way" data-sc-tilt="6">
+          <div class="sc-stack">
+            <h3>The jar</h3>
+            <p>One scent, one size, body butter or scrub. The one you come back for.</p>
+          </div>
+          <div class="way__foot"><span>From $10</span><a href="#scents">Pick a scent</a></div>
+        </article>
+        <article class="way" data-sc-tilt="6">
+          <div class="sc-stack">
+            <h3>The slab flight</h3>
+            <p>Three or four jars set on a live-edge wood slab. The gift that gets kept on the counter.</p>
+          </div>
+          <div class="way__foot"><span>From $49</span><a href="#">See the slabs</a></div>
+        </article>
+        <div class="ways__note">Pickup or delivery around [SHAUNA'S TOWN]. Shipping across the US is coming.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 · CLOSE: pin + pointer. Last element on the page. -->
+  <section class="close" data-sc-act="pin" data-sc-span="1.2" data-sc-drift="#1B261E">
+    <div data-sc-stage data-sc-spotlight>
+      <div class="close__inner">
+        <h2 class="sc-display sc-display--xl" data-sc-cue="0.05" data-sc-kinetic="lines">I am able. <em>I am strong.</em></h2>
+        <a class="cta" href="#ways" data-sc-magnet="0.26" data-sc-cue="0.05" data-sc-rise="0">Build a sample flight
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+      <footer class="foot">
+        <span>Valeo Body · est. 2025 · Washington</span>
+        <nav><a href="https://instagram.com/valeobody">Instagram</a><a href="https://tiktok.com/@valeobody">TikTok</a><a href="mailto:valeobodycare@gmail.com">Email</a></nav>
+      </footer>
+    </div>
+  </section>
+
+</main>
+
+<script src="scrollcraft.js"></script>
+<script>ScrollCraft.mount(document.body);</script>
+<script>
+/* The worlds scrub. The engine publishes the pinned act's progress as --sc-p;
+   each world owns a slice of it and drags its clip's playhead through that slice.
+   Stills stay underneath, so a clip that never loads is a still, not a hole. */
+(function () {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var act = document.getElementById('scents'); if (!act) return;
+  var worlds = Array.prototype.slice.call(act.querySelectorAll('.world'));
+  var starts = [0, 0.19, 0.39, 0.59, 0.79];
+  var mobile = matchMedia('(max-width: 700px)').matches;
+  var vids = worlds.map(function (w) {
+    var v = w.querySelector('video'); if (!v) return null;
+    v.src = mobile && v.dataset.srcMobile ? v.dataset.srcMobile : v.dataset.src;
+    v.muted = true; v.playsInline = true; v.preload = 'auto';
+    v.addEventListener('loadeddata', function () { v.classList.add('is-live'); });
+    v.addEventListener('error', function () { v.remove(); });
+    v.load();
+    return v;
+  });
+  var cur = [];
+  function tick() {
+    var p = parseFloat(getComputedStyle(act).getPropertyValue('--sc-p')) || 0;
+    for (var i = 0; i < vids.length; i++) {
+      var v = vids[i]; if (!v || !v.duration || !v.isConnected) continue;
+      var a = starts[i], b = i < 4 ? starts[i + 1] : 1;
+      var lp = Math.max(0, Math.min(1, (p - a) / (b - a)));
+      var t = lp * Math.max(v.duration - 0.06, 0);
+      cur[i] = cur[i] == null ? t : cur[i] + (t - cur[i]) * 0.18;
+      if (Math.abs(v.currentTime - cur[i]) > 0.02 && v.readyState >= 2) v.currentTime = cur[i];
+    }
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+})();
+</script>
+</body>
+</html>
