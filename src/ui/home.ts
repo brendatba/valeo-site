@@ -1,7 +1,8 @@
 import { catalog, mood } from '../lib/catalog.ts';
 import { money, flightTotal } from '../lib/pricing.ts';
 import { asset, escapeHtml, page } from '../lib/util.ts';
-import { watchWorldVideos, worldMedia } from '../lib/video.ts';
+import { watchWorldVideos } from '../lib/video.ts';
+import { mountPassage } from '../lib/passage.ts';
 import photos from '../../public/photos.json' with { type: 'json' };
 
 export function renderHome(root: HTMLElement): void {
@@ -32,17 +33,16 @@ export function renderHome(root: HTMLElement): void {
       </div>
     </section>
 
-    <section class="worlds wrap" aria-label="Scent worlds">
-      <div class="worlds-jar" aria-hidden="true"><img src="${jar}" alt="" width="900" height="856" loading="lazy"></div>
-      ${worlds.map((f) => `
-      <div class="world-stop${f.id === peak?.id ? ' peak' : ''}">
-        <div class="stop-media">${worldMedia({ still: asset(f.hero!), video: asset(f.heroVideo!), alt: `${f.name}: ${f.note}` })}</div>
-        <div class="stop-text"><div class="stop-name">${escapeHtml(f.name)}</div><p class="stop-note">${escapeHtml(f.note)} <span class="mood">· ${escapeHtml(mood(f.mood)?.label ?? '')}</span></p></div>
-      </div>`).join('')}
-      <div class="worlds-close">
-        <h2>The jar stays the same. The world around it is yours to pick.</h2>
-        <a class="text-btn" href="${page('shop/')}">See all ${catalog.fragrances.length} scents</a>
+    <section class="passage" id="worlds" style="--n:${worlds.length}" aria-label="Scent worlds">
+      <div class="stage">
+        ${worlds.map((f, i) => `<div class="pworld${i === 0 ? ' is-live' : ''}" data-name="${escapeHtml(f.name)}" data-tint="${f.tint}" data-note-html="${escapeHtml(`${escapeHtml(f.note)} <span class=&quot;mood&quot;>· ${escapeHtml(mood(f.mood)?.label ?? '')}</span>`)}" aria-hidden="true"><img src="${asset(f.hero!)}" alt="" width="1400" height="933" ${i === 0 ? 'fetchpriority="high"' : 'loading="lazy"'}>${f.heroVideo ? `<video muted playsinline preload="none" data-src="${asset(f.heroVideo)}"></video>` : ''}</div>`).join('')}
+        <div class="stage-jar" aria-hidden="true"><img src="${jar}" alt="" width="900" height="856"></div>
+        <p class="stage-hint">Scroll · the jar stays, the world changes</p>
+        <div class="stage-text"><div class="stop-name" data-passage-name>${escapeHtml(worlds[0]?.name ?? '')}</div><p class="stop-note" data-passage-note></p><div class="stage-rail" data-passage-rail aria-hidden="true">${worlds.map(() => '<span></span>').join('')}</div></div>
       </div>
+    </section>
+    <section class="section" aria-labelledby="close-title" style="padding-top:clamp(40px,7vh,80px)">
+      <div class="wrap worlds-close"><h2 id="close-title">The jar stays the same. The world around it is yours to pick.</h2><a class="text-btn" href="${page('shop/')}">See all ${catalog.fragrances.length} scents</a></div>
     </section>
 
     <section class="section" aria-labelledby="ways-title" id="ways">
@@ -85,4 +85,6 @@ export function renderHome(root: HTMLElement): void {
       </div>
     </section>`;
   watchWorldVideos(root);
+  const passage = root.querySelector<HTMLElement>('.passage');
+  if (passage) mountPassage(passage);
 }
