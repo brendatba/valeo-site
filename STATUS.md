@@ -1,8 +1,8 @@
 # STATUS.md — Valeo Body storefront v2
 
-**State: v3 visual rebuild shipped 2026-09-11 evening after Brenda's design review; pending Brenda's merge of the `v2 → main` PR (#1).**
+**State: v4 (2026-09-11, late) — rebuilt after Brenda's second review; in the reviewer loop (zaha design gate + shopper-QA agent) before redeploy; pending Brenda's merge of the `v2 → main` PR (#1).**
 
-v3 = same interaction model and catalog as v2, new visual layer per `DESIGN-RULING.md` (zaha) + `MEDIA-RULING.md` (thelma), routed by Athena, built with the `impeccable` skill (PRODUCT.md, DESIGN.md, `.impeccable/design.json`, direction contract in `index.html`). Four scent-world videos are back (`public/video/`, 612KB total, play on scroll). Pumpkin Marshmallow swatch now draws marshmallows (asset only; swatches no longer render on any page). Finish review: `REVIEW.md`.
+v4 = the Fleece/Comfrt swatch picker from Brenda's brief (mode → product jar tiles → size → 18 photo scent tiles with ring + check → sticky bar with thumbnail), 18 real ingredient worlds (13 generated with Gemini 3.1 Flash Image using the originals as style reference, coffee regenerated on cream), 23 Kling loops via Kie (landscape for every scent, portrait for the five passage worlds), and the home passage rebuilt as a true pinned stage with scroll-scrubbed video (`src/lib/passage.ts`). Review loop: `scripts/walkthrough.mjs` → `screens/r<N>/` → zaha + shopper-QA agents → fixes → recapture. Rounds 1–2 findings and fixes are in the git log; round 3 verdicts pending.
 **Live URL:** https://brendatba.github.io/valeo-site/ (deploys from `v2` via GitHub Actions until merge)
 
 ## Resume from here

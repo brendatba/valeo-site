@@ -1,6 +1,6 @@
 ---
 name: Valeo Body
-description: Dairy-cream storefront where one jar stays put and eighteen scent worlds move past it
+description: Dairy-cream storefront where one jar stays put, eighteen ingredient worlds move past it, and every scent is a photo swatch
 colors:
   cream: "#F6F1E7"
   cream-deep: "#EEE6D6"
@@ -117,14 +117,14 @@ components:
 
 One jar, photographed once, sits on dairy-cream and never moves. Everything else on the site is what surrounds that jar: the pistachios, the vanilla pods, the lavender, the toasted marshmallow. The customer is a woman on her phone deciding which world she wants around her jar, so the interface stays out of the way. It is bright, airy, ingredient-forward and celebratory, never dark, moody, or "luxury" muted.
 
-The system is typographic before it is graphic. Product words (scent names, jar names, totals) are set in Cormorant Garamond at generous size; everything operational is Nunito Sans. Selection is a text state, weight plus a green underline, applied the same way to a scent tile, a mode tab, a filter word, and a size option. There is exactly one filled control on any screen. Nothing is boxed: no hairline rules, no chip pills, no badges, no cards. Photographs float directly on the ground.
+Imagery does the selling: every one of the 18 scents is a real ingredient flat-lay (a loose ring of the scent's own ingredients on a softly tinted ground, empty in the middle where the jar goes), used at three scales: a 3:2 swatch tile in the picker, a large world in the shop's side panel with its 5-second loop, and full-bleed behind the pinned jar on the home passage. Product words (scent names, jar names, totals) are Cormorant Garamond; everything operational is Nunito Sans. Selection follows the Shopify swatch pattern Brenda pinned (Fleece / Comfrt): a photo swatch with its name beneath, a 2.5px green ring plus a green check disc when chosen, and a gold-on-paper numeral when it fills a flight or sample slot; text-only controls (mode tabs, mood filters, sizes) use weight plus a green underline. Exactly one filled button per screen. No hairline rules, no chip walls, no badges, no eyebrows, no template card grids; photographs float on the ground.
 
 **Key Characteristics:**
 - Dairy cream ground; botanical green is the only structural color; gold appears at most three times per viewport as separator dots or slot numerals
-- Selected = `font-weight: 700` + 2px green underline offset 4px; never a fill, ring, or check
+- Selected swatch = 2.5px green ring + green check disc; selected text control = 700 + 2px green underline
 - One filled button per screen (the sticky add-to-cart, or Place order)
 - Zero hairline dividers: separation by whitespace, a tonal step (cream → paper → cream-deep), or a real soft shadow
-- Photography and video on the page ground, unframed; the four scent loops play only when scrolled into view
+- 18 ingredient worlds (stills, 5s loops, portrait set for phones) load only when near; the passage scrubs them with scroll
 
 ## Colors
 
@@ -145,7 +145,7 @@ A cream ground with one deep green voice and a rare gold accent; the scent world
 - Each fragrance carries a `tint` in the catalog; it may wash the world-panel background at ≤8% (`color-mix`) and nothing else.
 
 ### Named Rules
-**The One Filled Control Rule.** Per screen, exactly one element has an opaque filled background acting as a control. Every other state is weight and underline.
+**The One Filled Control Rule.** Per screen, exactly one element has an opaque filled background acting as a control (the sticky Add / Place order). Swatches show state with a ring and check, text controls with weight and underline.
 **The Three Gold Marks Rule.** Gold is visible at most three times in any viewport.
 **The No Hairline Rule.** `--line` was retired. Nothing separates with a 1px stroke.
 
@@ -197,11 +197,16 @@ Rectangular and quiet. Media crops use 6px corners, inputs and slots 8–10px, t
 - **Text button:** green-ink 700 with a 1.5px underline offset 4px, for every secondary action.
 - **Focus:** global `outline: 3px solid var(--green); outline-offset: 3px`.
 
-### Selection controls (tiles, mode tabs, filter words, size and product options)
-- **Style:** plain text on the ground, Ink Soft at rest, no container.
-- **Hover:** green underline at 45% opacity.
-- **Selected:** weight 700, Green Ink, 2px green underline. Size options carry a tabular-numeral price beneath at .8rem.
-- **Disabled:** 35% opacity with a 1px line-through.
+### Scent swatch tile (the picker's unit)
+- **Anatomy:** 3:2 photo (`t-<id>.jpg`, 400×267) with 10px corners on a soft tint, name beneath in Cormorant 600 (1rem / 1.12rem desktop). Grid: 3 columns on phones, 4 to 640px+, 6 at 1200px+.
+- **Hover:** 1px lift + soft shadow. **Selected:** `box-shadow: 0 0 0 2.5px var(--green)` on the photo, a 24px green check disc top-right, name at 700. **In a flight/sample:** a paper numeral disc top-left with the slot number.
+- **"Other":** same tile with a serif "+" on tint instead of a photo.
+
+### Product tile
+- Square paper tile with the jar render at 78%, name beneath (.82rem 700); selected = 2.5px green ring + check; disallowed (flight slot kind) = 35% opacity.
+
+### Text controls (mode tabs, mood filters, sizes)
+- Plain text on the ground, Ink Soft at rest; hover = green underline at 45%; selected = 700 + 2px green underline. Mode tabs carry a Cormorant label with a small sub-line. Size options carry a tabular price beneath. Disabled = 35% + 1px line-through. Minimum 44×44 targets.
 
 ### Flight / sample slots
 - Paper fill, 8px corners, 62px tall; gold numeral top-right; empty slots at 55% paper with "tap a scent"; active slot gets the underline vocabulary on its name. Totals stack without rules; the total line jumps to Cormorant 1.5rem.
@@ -214,14 +219,15 @@ Rectangular and quiet. Media crops use 6px corners, inputs and slots 8–10px, t
 ### Navigation
 - Sticky cream bar at 88% with 12px blur, no rule. Wordmark in Cormorant 700 tracked .14em with the lotus mark. "Shop" and "Cart n" as text; the count is a small green disc that turns sage-soft at zero.
 
-### World panel / world stop (signature)
-- Media (16:9 on phones, 4:3 in the shop's side column, 3:2 on the home passage) with 6px corners on the ground; scent name in Cormorant beneath, never over the image; note in Ink Soft with the mood in Green Light 700. Video loops are `muted playsinline loop preload="none"`, `src` attached on intersection, skipped for reduced motion and data-saver. The pinned jar (`.worlds-jar`) is the one authored motion.
+### World panel (shop, desktop side column) and the passage (home, signature)
+- **World panel:** 4:3 media with 6px corners on the ground; scent name in Cormorant beneath, never over the image; note in Ink Soft with the mood in Green Light 700; the loop plays on intersection (`muted playsinline loop preload="none"`), skipped for reduced motion / data saver.
+- **Passage:** `.passage` is `n × 70svh + 100svh` tall; `.stage` is sticky at 100svh; worlds (`.pworld`) are absolute layers crossfaded by scroll progress (0.55s ease-out); the live world's loop is fetched as a blob and its `currentTime` scrubbed across that world's window; the jar (`.stage-jar`, 40vw phones / 24vw desktop) never moves; the caption card sits bottom-right on a cream 82% blur; on phones the portrait world (`-p.jpg`, `-p.mp4`) is contain-fit on the stage painted with the image's own edge colour (`heroPBg`). Media loads only when the passage is near and after `load`.
 
 ## Do's and Don'ts
 
 ### Do:
 - **Do** set every scent or product name in Cormorant Garamond 600 and let size carry hierarchy.
-- **Do** indicate selection with weight + a 2px green underline, offset 4px, identically everywhere.
+- **Do** indicate selection on a swatch with the 2.5px green ring + check, and on text with 700 + a 2px green underline.
 - **Do** separate with whitespace or a tonal step (Cream → Paper → Cream Deep).
 - **Do** float photographs on the ground; use `mask-image` fades when a photo has its own ground.
 - **Do** load video only on intersection with `preload="none"` and a still poster.
@@ -229,6 +235,6 @@ Rectangular and quiet. Media crops use 6px corners, inputs and slots 8–10px, t
 ### Don't:
 - **Don't** draw a 1px rule anywhere.
 - **Don't** fill more than one control per screen.
-- **Don't** put a scent in a tinted chip, a card, or behind an icon; the catalog's `tint` may only wash the world panel at ≤8%.
+- **Don't** stand an icon, emoji, or illustration in for a scent; a scent is its ingredient photograph. The catalog `tint` only softens the tile ground behind the photo.
 - **Don't** add kickers/eyebrows, badges, numbered-step counters, or emoji-class icons.
 - **Don't** darken the ground; the only ground shift is the warm band at the Pumpkin Marshmallow peak.
