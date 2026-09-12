@@ -36,11 +36,9 @@ export function closeDrawer(): void {
 function lineView(line: CartLine): HTMLElement {
   const price = money(lineTotal(line));
   if (line.kind === 'jar') {
-    const f = fragrance(line.fragrance);
     const p = product(line.product);
-    const node = el('div', { class: 'line', style: `--tint:${f?.tint ?? catalog.other.tint}` });
+    const node = el('div', { class: 'line' });
     node.innerHTML = `
-      <img src="${asset(f?.swatch ?? catalog.other.swatch)}" alt="" width="44" height="44">
       <div><div class="l-name">${escapeHtml(fragranceName(line.fragrance, line.otherText))}</div>
         <div class="l-meta">${p.name} · ${size(line.size).label} · ${money(jarPrice(line))} each</div>
         <div class="l-actions">
@@ -58,9 +56,9 @@ function lineView(line: CartLine): HTMLElement {
   if (line.kind === 'flight') {
     const f = flight(line.option);
     const b = flightTotal(line.option, line.jars);
-    const node = el('div', { class: 'line', style: `--tint:${catalog.bundles.slab.image ? '#F1E6D2' : ''}` });
+    const node = el('div', { class: 'line has-img' });
     node.innerHTML = `
-      <img src="${asset(catalog.bundles.slab.image)}" alt="" width="44" height="44" style="object-fit:cover;padding:0">
+      <img src="${asset(catalog.bundles.slab.image)}" alt="" width="56" height="56">
       <div><div class="l-name">Slab Flight · Option ${line.option}</div>
         <div class="l-meta">${f.name} · ${money(b.retail)} retail − ${money(b.discount)} + ${money(b.slab)} slab</div>
         <div class="l-actions"><a class="link-btn" href="${page(`shop/?mode=flight&option=${line.option}&edit=${line.id}`)}">Edit</a><button type="button" class="link-btn" data-act="remove">Remove</button></div></div>
@@ -70,9 +68,9 @@ function lineView(line: CartLine): HTMLElement {
     return node;
   }
   const s = sampleTotal(line.minis.length);
-  const node = el('div', { class: 'line', style: '--tint:#F1E6D2' });
+  const node = el('div', { class: 'line has-img' });
   node.innerHTML = `
-    <img src="${asset(catalog.bundles.samples.image)}" alt="" width="44" height="44" style="object-fit:cover;padding:0">
+    <img src="${asset(catalog.bundles.samples.image)}" alt="" width="56" height="56">
     <div><div class="l-name">Sample Minis · ${s.count} of ${s.setSize}</div>
       <div class="l-meta">${s.isSet ? `Set of ${s.setSize} for ${money(s.setPrice)}` : `${money(s.each)} each`}</div>
       <div class="l-actions"><a class="link-btn" href="${page(`shop/?mode=sample&edit=${line.id}`)}">Edit</a><button type="button" class="link-btn" data-act="remove">Remove</button></div></div>
@@ -117,7 +115,7 @@ function render(lines: CartLine[]): void {
     for (const p of pairs) {
       const row = el('div', { class: 'pair' });
       row.innerHTML = `<span>${escapeHtml(p.label)} · ${size(p.size).label} · <strong>${money(jarPrice(p))}</strong></span>`;
-      const btn = el('button', { type: 'button', class: 'btn btn-soft btn-sm' }, 'Add');
+      const btn = el('button', { type: 'button', class: 'text-btn' }, 'Add');
       btn.addEventListener('click', () => { cart.add({ kind: 'jar', fragrance: p.fragrance, otherText: p.otherText, product: p.product, size: p.size, qty: 1 }); toast('Added to cart'); });
       row.append(btn);
       box.append(row);
@@ -127,5 +125,5 @@ function render(lines: CartLine[]): void {
   foot.innerHTML = `
     <div class="subtotal"><span>Subtotal</span><span class="price" id="cart-subtotal">${money(cart.total)}</span></div>
     <a class="btn btn-primary" href="${page('checkout/')}">Checkout</a>
-    <p class="small muted" style="text-align:center">Pickup or local delivery · paid by Venmo</p>`;
+    <p class="small muted">Pickup or local delivery · paid by Venmo</p>`;
 }

@@ -1,31 +1,36 @@
-/* Valeo Body — design tokens. Light theme only (brief §4). */
+/* Valeo Body — design tokens. Light only (brief §4). --line was retired 2026-09-11 (zero hairlines, bar.md #4). */
 :root {
-  --cream:      #F6F1E7;
-  --cream-2:    #EFE7D8;
-  --paper:      #FFFDF9;
+  --cream:      #F6F1E7;   /* page ground */
+  --cream-2:    #EEE6D6;   /* one step down: footer band, drawer foot */
+  --paper:      #FDFBF6;   /* one step up: form surface, slot fills */
   --green:      #2F4A2A;
   --green-2:    #3E5E38;
   --green-ink:  #1F3320;
   --sage:       #9DB394;
-  --sage-soft:  #DCE5D6;
+  --sage-soft:  #E1E8DB;
   --gold:       #C9A24A;
-  --gold-soft:  #EBDDB4;
-  --tan:        #E7D9BF;
   --ink:        #1F2A1D;
   --ink-soft:   #5A6657;
   --ink-mute:   #8A938A;
-  --line:       #E2DACB;
   --danger:     #A63D2F;
 
   --font-display: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
   --font-text: 'Nunito Sans Variable', 'Nunito Sans', 'Segoe UI', Helvetica, Arial, sans-serif;
 
-  --r-sm: 8px; --r-md: 14px; --r-lg: 22px; --r-pill: 999px;
-  --shadow-sm: 0 1px 2px rgb(47 74 42 / .08), 0 2px 8px rgb(47 74 42 / .06);
-  --shadow-md: 0 6px 24px rgb(47 74 42 / .12);
-  --gutter: clamp(16px, 4vw, 40px);
-  --max: 1180px;
-  --header-h: 60px;
-  --bar-h: 76px;
+  /* selected state: weight + underline, applied identically to tiles, tabs, filters, variants */
+  --sel-weight: 700;
+  --sel-underline: 2px;
+  --sel-offset: 4px;
+
+  --r-sheet: 22px;   /* cart drawer sheet, checkout form surface only */
+  --r-field: 10px;   /* inputs */
+  --r-pill: 999px;   /* true buttons only */
+  --shadow-sheet: 0 10px 40px rgb(31 42 29 / .16);
+  --shadow-bar: 0 -8px 24px rgb(47 74 42 / .10);
+  --gutter: clamp(18px, 5vw, 48px);
+  --max: 1200px;
+  --header-h: 64px;
+  --bar-h: 80px;
   --ease: cubic-bezier(.2,.7,.2,1);
+  --ease-out: cubic-bezier(.16,1,.3,1);
 }

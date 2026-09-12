@@ -39,11 +39,10 @@ export function mountFooter(): void {
       <div>
         <a class="wordmark" href="${page('')}">${LOTUS}<span>${b.wordmark}</span></a>
         <p class="muted" style="margin-top:8px;max-width:46ch">${b.about}</p>
-        <p class="small muted" style="margin-top:10px">${b.altName} · Est. ${b.est}</p>
+        <p class="small muted" style="margin-top:12px">${b.altName} · est. ${b.est}</p>
       </div>
       <div class="contact">
-        <span class="eyebrow">Get in touch</span>
-        <a href="tel:${b.phoneDigits}">${b.phone}</a>
+                <a href="tel:${b.phoneDigits}">${b.phone}</a>
         <a href="mailto:${b.email}">${b.email}</a>
         <a href="https://instagram.com/${b.instagram}" rel="noopener">@${b.instagram}</a>
         <span class="muted">${b.domain}</span>

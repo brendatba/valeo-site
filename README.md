@@ -32,4 +32,6 @@ npm run screens <name>   # screenshots every screen → screens/<name>/
 - **Order delivery:** set `VITE_ORDER_ENDPOINT` (Formspree/Netlify-style JSON endpoint) as a repo secret. Without it, orders still render on screen with SMS and email hand-off links. See `.env.example`.
 - **Base path:** `BASE_PATH` env at build time (`/valeo-site/` for GitHub Pages; `/` once `valeobody.com` is attached). Set in `.github/workflows/deploy.yml`.
 - **Photos:** `public/photos.json` maps each photo slot to a file in `public/products/`. Per-scent flat-lays are the `hero` field on a fragrance in the catalog.
-- **Swatches:** `node scripts/make-swatches.mjs` regenerates `public/swatches/` from the drawing definitions in that script.
+- **Swatches:** `node scripts/make-swatches.mjs` regenerates `public/swatches/` from the drawing definitions in that script. Since v3 the swatches are assets only; no page renders them.
+- **Scent videos:** `public/video/w-<scent>.mp4` (960×540, CRF 28, no audio, ~150KB each) re-encoded from `~/Work/SHAUNA/art/video/`. Wire one with `"heroVideo": "video/w-<scent>.mp4"` on the fragrance in the catalog; it needs a `hero` still as its poster. Videos load only when scrolled into view.
+- **Design system:** `DESIGN.md` (tokens + rules), `PRODUCT.md` (product truth), `DESIGN-RULING.md` / `MEDIA-RULING.md` (the 2026-09-11 rulings), `FINGERPRINTS.md`, `REVIEW.md`.

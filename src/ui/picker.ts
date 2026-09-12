@@ -2,6 +2,7 @@ import { catalog, fragrance, fragranceName, mood, product, size, flight, OTHER_I
 import { cart } from '../lib/cart.ts';
 import { flightTotal, isAvailable, jarPrice, money, sampleTotal, type CartLine, type NewCartLine } from '../lib/pricing.ts';
 import { asset, el, escapeHtml, qs, toast } from '../lib/util.ts';
+import { watchWorldVideos, worldMedia } from '../lib/video.ts';
 import { openDrawer } from './cart-drawer.ts';
 
 export type Mode = 'single' | 'flight' | 'sample';
@@ -17,11 +18,12 @@ interface State {
   editId: string | null;
 }
 
-const CHECK = `<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6.5l2.6 2.6L10 3.5"/></svg>`;
 const X = `<svg width="12" height="12" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M4 4l12 12M16 4L4 16"/></svg>`;
 
 const defaultProduct = catalog.products[0].id;
 const defaultSize = catalog.sizes.find((s) => s.id === '4oz')?.id ?? catalog.sizes[0].id;
+
+function numberWord(n: number): string { return ['Zero','One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten','Eleven','Twelve','Thirteen','Fourteen','Fifteen','Sixteen','Seventeen','Eighteen','Nineteen','Twenty'][n] ?? String(n); }
 
 function emptySlots(option: string): (Pick | null)[] { return flight(option).slots.map(() => null); }
 
@@ -64,7 +66,7 @@ export function mountPicker(root: HTMLElement): void {
       </div>
     </section>
     <aside class="picker-side" aria-label="Your selection">
-      <div class="scent-head" id="scent-head" aria-live="polite"></div>
+      <div class="world" id="world" aria-live="polite"><div class="world-media" id="world-media" hidden></div><div class="world-name" id="world-name"></div><div class="world-note" id="world-note"></div></div>
       <div class="picker-variants" id="variants"></div>
     </aside>`;
   const bar = el('div', { class: 'bar', id: 'bar' });
@@ -74,7 +76,8 @@ export function mountPicker(root: HTMLElement): void {
 
   const $ = <T extends HTMLElement = HTMLElement>(sel: string) => root.querySelector<T>(sel)!;
   const modesEl = $('#modes'); const builderEl = $('#builder'); const chipsEl = $('#chips'); const gridEl = $('#grid');
-  const otherEl = $('#other'); const otherInput = $<HTMLInputElement>('#other-text'); const scentHead = $('#scent-head'); const variantsEl = $('#variants');
+  const otherEl = $('#other'); const otherInput = $<HTMLInputElement>('#other-text'); const worldMediaEl = $('#world-media'); const worldNameEl = $('#world-name'); const worldNoteEl = $('#world-note'); const variantsEl = $('#variants');
+  let worldShown: string | null | undefined;
   const barL1 = bar.querySelector<HTMLElement>('#bar-l1')!; const barL2 = bar.querySelector<HTMLElement>('#bar-l2')!;
   const barAdd = bar.querySelector<HTMLButtonElement>('#bar-add')!; const barLabel = bar.querySelector<HTMLElement>('#bar-label')!; const barPrice = bar.querySelector<HTMLElement>('#bar-price')!;
 
@@ -89,8 +92,7 @@ export function mountPicker(root: HTMLElement): void {
   // ----- Filter chips -----
   const chipDefs = [{ id: 'all', label: 'All', color: 'var(--sage)' }, ...catalog.moods.map((m) => ({ id: m.id, label: m.label, color: m.color }))];
   for (const c of chipDefs) {
-    const b = el('button', { type: 'button', class: 'chip', 'data-filter': c.id, style: `--dot:${c.color}` });
-    b.innerHTML = `<span class="dot" aria-hidden="true"></span>${escapeHtml(c.label)}`;
+    const b = el('button', { type: 'button', class: 'chip', 'data-filter': c.id, 'aria-pressed': 'false' }, c.label);
     b.addEventListener('click', () => { state.filter = c.id; update(); });
     chipsEl.append(b);
   }
@@ -101,8 +103,8 @@ export function mountPicker(root: HTMLElement): void {
   for (const f of allFragrances) {
     const isOther = f.id === OTHER_ID;
     const m = isOther ? undefined : mood((f as Fragrance).mood);
-    const t = el('button', { type: 'button', class: 'tile', 'data-id': f.id, 'aria-pressed': 'false', style: `--tint:${f.tint};--dot:${m?.color ?? 'var(--sage)'}` });
-    t.innerHTML = `${m ? `<span class="mood-dot" aria-hidden="true"></span>` : ''}${(f as Fragrance).tag ? `<span class="badge">${escapeHtml((f as Fragrance).tag!)}</span>` : ''}<span class="check" aria-hidden="true">${CHECK}</span><img src="${asset(f.swatch)}" alt="" width="40" height="40" loading="lazy"><span class="name">${escapeHtml(f.name)}</span><span class="slotnum" aria-hidden="true"></span>`;
+    const t = el('button', { type: 'button', class: `tile${isOther ? ' other' : ''}`, 'data-id': f.id, 'aria-pressed': 'false' });
+    t.innerHTML = `<span class="slotnum" aria-hidden="true"></span><span class="name">${escapeHtml(isOther ? '+ Other' : f.name)}</span>`;
     t.setAttribute('aria-label', isOther ? 'Other fragrance (type your own)' : `${f.name}${m ? `, ${m.label}` : ''}`);
     t.addEventListener('click', () => pickFragrance(f.id));
     tiles.set(f.id, t);
@@ -240,7 +242,7 @@ export function mountPicker(root: HTMLElement): void {
       const sel = selected.get(id);
       t.setAttribute('aria-pressed', String(!!sel));
       t.dataset.slots = sel && sel.length && state.mode === 'flight' ? sel.map((n) => n + 1).join(',') : '';
-      t.querySelector('.slotnum')!.textContent = t.dataset.slots ? `#${t.dataset.slots}` : '';
+      t.querySelector('.slotnum')!.textContent = t.dataset.slots ?? '';
     }
     $('#frag-hint').textContent = state.filter === 'all' ? `${catalog.fragrances.length} scents` : `${shown - 1} of ${catalog.fragrances.length}`;
 
@@ -251,7 +253,7 @@ export function mountPicker(root: HTMLElement): void {
     if (showOther && otherInput.value !== pick!.otherText) otherInput.value = pick!.otherText;
 
     if (rebuildBuilder) renderBuilder();
-    renderScentHead(pick);
+    renderWorld(pick);
     renderVariants(pick);
     renderBar();
   }
@@ -276,7 +278,7 @@ export function mountPicker(root: HTMLElement): void {
       for (const fl of catalog.bundles.flights) {
         const ref = flightTotal(fl.id, fl.slots.map((s) => ({ product: s.kind === 'scrub' ? catalog.products.find((p) => p.kind === 'scrub')!.id : defaultProduct, size: s.size })));
         const o = el('button', { type: 'button', class: 'seg-opt', 'aria-pressed': String(fl.id === state.option), 'data-option': fl.id });
-        o.innerHTML = `<span>Option ${fl.id}</span><span class="sub">${escapeHtml(fl.name)} · ${money(ref.total)}</span>`;
+        o.innerHTML = `<span class="lbl">Option ${fl.id}</span><span class="sub">${escapeHtml(fl.name)} · ${money(ref.total)}</span>`;
         o.addEventListener('click', () => { if (fl.id === state.option) return; state.option = fl.id; state.flight.slots = emptySlots(fl.id); state.flight.activeSlot = 0; state.editId = null; syncUrl(); update(); });
         opts.append(o);
       }
@@ -286,10 +288,10 @@ export function mountPicker(root: HTMLElement): void {
       f.slots.forEach((slotDef, i) => {
         const s = state.flight.slots[i];
         const fr = s ? fragrance(s.fragrance) : undefined;
-        const btn = el('button', { type: 'button', class: `slot${s ? '' : ' empty'}`, 'aria-pressed': String(i === state.flight.activeSlot), style: `--tint:${fr?.tint ?? (s ? catalog.other.tint : '')}` , 'data-slot': String(i) });
+        const btn = el('button', { type: 'button', class: `slot${s ? '' : ' empty'}`, 'aria-pressed': String(i === state.flight.activeSlot), 'data-slot': String(i) });
         btn.innerHTML = s
-          ? `<img src="${asset(fr?.swatch ?? catalog.other.swatch)}" alt="" width="34" height="34"><span class="slot-body"><span class="slot-name">${escapeHtml(fragranceName(s.fragrance, s.otherText))}</span><span class="slot-meta">${product(s.product).name} · ${size(slotDef.size).label}</span></span><span class="slot-num">${i + 1}</span>`
-          : `<span class="slot-body"><span class="slot-name muted">Jar ${i + 1}</span><span class="slot-meta">${slotDef.kind === 'butter' ? 'Body butter' : slotDef.kind === 'scrub' ? 'Any scrub' : 'Any product'} · ${size(slotDef.size).label}${i === state.flight.activeSlot ? ' · tap a scent' : ''}</span></span><span class="slot-num">${i + 1}</span>`;
+          ? `<span class="slot-body"><span class="slot-name">${escapeHtml(fragranceName(s.fragrance, s.otherText))}</span><span class="slot-meta">${product(s.product).name} · ${size(slotDef.size).label}</span></span><span class="slot-num">${i + 1}</span>`
+          : `<span class="slot-body"><span class="slot-name">Jar ${i + 1}</span><span class="slot-meta">${slotDef.kind === 'butter' ? 'Body butter' : slotDef.kind === 'scrub' ? 'Any scrub' : 'Any product'} · ${size(slotDef.size).label}${i === state.flight.activeSlot ? ' · tap a scent' : ''}</span></span><span class="slot-num">${i + 1}</span>`;
         btn.setAttribute('aria-label', `Jar ${i + 1}: ${s ? `${fragranceName(s.fragrance, s.otherText)}, ${product(s.product).name}, ${size(slotDef.size).label}` : `empty, ${size(slotDef.size).label}`}${i === state.flight.activeSlot ? ' (choosing now)' : ''}`);
         btn.addEventListener('click', () => { state.flight.activeSlot = i; update(); });
         const wrap = el('div', { style: 'position:relative' }, btn);
@@ -318,10 +320,10 @@ export function mountPicker(root: HTMLElement): void {
       for (let i = 0; i < s.setSize; i++) {
         const m = state.sample.minis[i];
         const fr = m ? fragrance(m.fragrance) : undefined;
-        const btn = el('button', { type: 'button', class: `slot${m ? '' : ' empty'}`, 'aria-pressed': String(m ? i === state.sample.active : false), style: `--tint:${fr?.tint ?? (m ? catalog.other.tint : '')}`, disabled: !m });
+        const btn = el('button', { type: 'button', class: `slot${m ? '' : ' empty'}`, 'aria-pressed': String(m ? i === state.sample.active : false), disabled: !m });
         btn.innerHTML = m
-          ? `<img src="${asset(fr?.swatch ?? catalog.other.swatch)}" alt="" width="34" height="34"><span class="slot-body"><span class="slot-name">${escapeHtml(fragranceName(m.fragrance, m.otherText))}</span><span class="slot-meta">${product(m.product).name} mini</span></span><span class="slot-num">${i + 1}</span>`
-          : `<span class="slot-body"><span class="slot-name muted">Mini ${i + 1}</span><span class="slot-meta">tap a scent</span></span><span class="slot-num">${i + 1}</span>`;
+          ? `<span class="slot-body"><span class="slot-name">${escapeHtml(fragranceName(m.fragrance, m.otherText))}</span><span class="slot-meta">${product(m.product).name} mini</span></span><span class="slot-num">${i + 1}</span>`
+          : `<span class="slot-body"><span class="slot-name">Mini ${i + 1}</span><span class="slot-meta">tap a scent</span></span><span class="slot-num">${i + 1}</span>`;
         if (m) btn.setAttribute('aria-label', `Mini ${i + 1}: ${fragranceName(m.fragrance, m.otherText)}, ${product(m.product).name}. Select to change its product.`);
         btn.addEventListener('click', () => { state.sample.active = state.sample.active === i ? null : i; update(); });
         const wrap = el('div', { style: 'position:relative' }, btn);
@@ -341,17 +343,28 @@ export function mountPicker(root: HTMLElement): void {
     builderEl.append(box);
   }
 
-  function renderScentHead(pick: ReturnType<typeof currentPick>): void {
+  function renderWorld(pick: ReturnType<typeof currentPick>): void {
     const id = pick?.fragrance ?? null;
+    const f = id ? fragrance(id) : undefined;
+    const m = f ? mood(f.mood) : undefined;
+    if (worldShown !== id) {
+      worldShown = id;
+      const media = f ? worldMedia({ still: f.hero ? asset(f.hero) : undefined, video: f.heroVideo ? asset(f.heroVideo) : undefined, alt: `${f.name}: ${f.note}` }) : '';
+      worldMediaEl.hidden = !media;
+      worldMediaEl.innerHTML = media;
+      if (f) worldMediaEl.style.setProperty('--tint', f.tint); worldMediaEl.dataset.tint = f ? '1' : '';
+      watchWorldVideos(worldMediaEl);
+    }
     if (!id) {
-      scentHead.style.setProperty('--tint', 'var(--paper)');
-      scentHead.innerHTML = `<div><div class="name">No scent yet</div><div class="note empty">${state.mode === 'flight' ? `Pick a scent for jar ${state.flight.activeSlot + 1}.` : state.mode === 'sample' ? 'Tap up to five scents.' : 'Tap a fragrance above.'}</div></div>`;
+      const n = catalog.fragrances.length;
+      worldNameEl.className = 'world-name big';
+      worldNameEl.textContent = state.mode === 'flight' ? `Jar ${state.flight.activeSlot + 1} of ${state.flight.slots.length}.` : state.mode === 'sample' ? 'Five little jars.' : `${numberWord(n)} scents.`;
+      worldNoteEl.innerHTML = state.mode === 'flight' ? 'Tap a scent below and it goes on the slab.' : state.mode === 'sample' ? `Tap up to ${catalog.bundles.samples.setSize} scents. The fifth one makes it a set.` : 'Tap one and its world appears here.';
       return;
     }
-    const f = fragrance(id);
-    const m = f ? mood(f.mood) : undefined;
-    scentHead.style.setProperty('--tint', f?.tint ?? catalog.other.tint);
-    scentHead.innerHTML = `<img src="${asset(f?.swatch ?? catalog.other.swatch)}" alt="" width="54" height="54"><div><div class="name">${escapeHtml(fragranceName(id, pick!.otherText))}</div><div class="note">${f ? `${escapeHtml(f.note)}${m ? ` · ${escapeHtml(m.label)}` : ''}` : 'Type the scent you want in the box below the grid.'}</div></div>`;
+    worldNameEl.className = `world-name${f?.hero ? '' : ' big'}`;
+    worldNameEl.textContent = fragranceName(id, pick!.otherText);
+    worldNoteEl.innerHTML = f ? `${escapeHtml(f.note)}${m ? ` <span class="mood">· ${escapeHtml(m.label)}</span>` : ''}` : 'Type the scent you want in the box below the grid.';
   }
 
   function renderVariants(pick: ReturnType<typeof currentPick>): void {
@@ -365,7 +378,7 @@ export function mountPicker(root: HTMLElement): void {
     for (const p of catalog.products) {
       const allowed = !slotDef?.kind || p.kind === slotDef.kind;
       const o = el('button', { type: 'button', class: 'seg-opt', 'aria-pressed': String(p.id === currentProduct), 'data-product': p.id, disabled: !allowed });
-      o.innerHTML = `<span>${escapeHtml(p.name)}</span>`;
+      o.innerHTML = `<span class="lbl">${escapeHtml(p.name)}</span>`;
       o.addEventListener('click', () => setProduct(p.id));
       prodOpts.append(o);
     }
@@ -381,7 +394,7 @@ export function mountPicker(root: HTMLElement): void {
         const spec = { product: state.single.product, size: s.id };
         const ok = isAvailable(spec);
         const o = el('button', { type: 'button', class: 'seg-opt', 'aria-pressed': String(s.id === state.single.size), 'data-size': s.id, disabled: !ok });
-        o.innerHTML = `<span>${escapeHtml(s.label)}</span><span class="sub">${ok ? money(jarPrice(spec)) : 'n/a'}</span>`;
+        o.innerHTML = `<span class="lbl">${escapeHtml(s.label)}</span><span class="sub">${ok ? money(jarPrice(spec)) : 'n/a'}</span>`;
         o.addEventListener('click', () => { state.single.size = s.id; update(); });
         sizeOpts.append(o);
       }

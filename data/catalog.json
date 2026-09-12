@@ -49,12 +49,12 @@
   ],
 
   "fragrances": [
-    { "id": "pistachio-salted-caramel",  "name": "Pistachio Salted Caramel",  "mood": "sweet",    "tint": "#EEF0D3", "swatch": "swatches/pistachio-salted-caramel.svg",  "note": "roasted pistachio, buttery caramel, a pinch of salt", "hero": "products/world-pistachio.jpg" },
-    { "id": "cashmere-vanilla",          "name": "Cashmere Vanilla",          "mood": "warm",     "tint": "#F3E9DA", "swatch": "swatches/cashmere-vanilla.svg",          "note": "soft vanilla, warm musk, clean cotton", "hero": "products/world-vanilla.jpg" },
+    { "id": "pistachio-salted-caramel",  "name": "Pistachio Salted Caramel",  "mood": "sweet",    "tint": "#EEF0D3", "swatch": "swatches/pistachio-salted-caramel.svg",  "note": "roasted pistachio, buttery caramel, a pinch of salt", "hero": "products/world-pistachio.jpg", "heroVideo": "video/w-pistachio.mp4" },
+    { "id": "cashmere-vanilla",          "name": "Cashmere Vanilla",          "mood": "warm",     "tint": "#F3E9DA", "swatch": "swatches/cashmere-vanilla.svg",          "note": "soft vanilla, warm musk, clean cotton", "hero": "products/world-vanilla.jpg", "heroVideo": "video/w-vanilla.mp4" },
     { "id": "raspberry-lemonade",        "name": "Raspberry Lemonade",        "mood": "fruity",   "tint": "#F9DCE3", "swatch": "swatches/raspberry-lemonade.svg",        "note": "tart raspberry, bright lemon, a little sugar" },
     { "id": "coconut-lime",              "name": "Coconut Lime",              "mood": "fruity",   "tint": "#E4F1E2", "swatch": "swatches/coconut-lime.svg",              "note": "creamy coconut, fresh lime zest" },
     { "id": "vanilla-amber",             "name": "Vanilla Amber",             "mood": "warm",     "tint": "#F2E2C8", "swatch": "swatches/vanilla-amber.svg",             "note": "golden amber, vanilla bean, a touch of resin" },
-    { "id": "chamomile-lavender",        "name": "Chamomile Lavender",        "mood": "calm",     "tint": "#E9E2F2", "swatch": "swatches/chamomile-lavender.svg",        "note": "calming chamomile, soft lavender", "hero": "products/world-chamomile.jpg" },
+    { "id": "chamomile-lavender",        "name": "Chamomile Lavender",        "mood": "calm",     "tint": "#E9E2F2", "swatch": "swatches/chamomile-lavender.svg",        "note": "calming chamomile, soft lavender", "hero": "products/world-chamomile.jpg", "heroVideo": "video/w-chamomile.mp4" },
     { "id": "birthday-cake",             "name": "Birthday Cake",             "mood": "sweet",    "tint": "#FBE6EE", "swatch": "swatches/birthday-cake.svg",             "note": "vanilla sponge, buttercream, sprinkles" },
     { "id": "watermelon",                "name": "Watermelon",                "mood": "fruity",   "tint": "#FBDDD8", "swatch": "swatches/watermelon.svg",                "note": "juicy watermelon, cool and sweet" },
     { "id": "cinnamon-roll",             "name": "Cinnamon Roll",             "mood": "sweet",    "tint": "#F1DDC6", "swatch": "swatches/cinnamon-roll.svg",             "note": "warm cinnamon, brown sugar, cream cheese icing" },
@@ -66,7 +66,7 @@
     { "id": "brazilian-orange-bourbon",  "name": "Brazilian Orange Bourbon",  "mood": "warm",     "tint": "#F8E1C4", "swatch": "swatches/brazilian-orange-bourbon.svg",  "note": "sweet orange, oak, warm bourbon" },
     { "id": "honey-vanilla",             "name": "Honey Vanilla",             "mood": "sweet",    "tint": "#F7E8C6", "swatch": "swatches/honey-vanilla.svg",             "note": "raw honey, soft vanilla" },
     { "id": "marshmallow-vanilla-kisses","name": "Marshmallow Vanilla Kisses","mood": "sweet",    "tint": "#F6ECEC", "swatch": "swatches/marshmallow-vanilla-kisses.svg","note": "toasted marshmallow, vanilla sugar" },
-    { "id": "pumpkin-marshmallow",       "name": "Pumpkin Marshmallow",       "mood": "seasonal", "tint": "#F6DFC8", "swatch": "swatches/pumpkin-marshmallow.svg",       "note": "pumpkin spice, toasted marshmallow", "tag": "Fall", "hero": "products/world-pumpkin.jpg" }
+    { "id": "pumpkin-marshmallow",       "name": "Pumpkin Marshmallow",       "mood": "seasonal", "tint": "#F6DFC8", "swatch": "swatches/pumpkin-marshmallow.svg",       "note": "pumpkin spice, toasted marshmallow", "tag": "Fall", "hero": "products/world-pumpkin.jpg", "heroVideo": "video/w-pumpkin.mp4" }
   ],
 
   "other": { "id": "other", "name": "Other", "swatch": "swatches/other.svg", "tint": "#F0EDE6", "prompt": "Tell us the scent you're after" },

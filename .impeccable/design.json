@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-11T20:30:00-07:00",
+  "title": "Design System: Valeo Body",
+  "extensions": {
+    "colorMeta": {
+      "cream": { "role": "neutral", "displayName": "Dairy Cream", "canonical": "#F6F1E7", "tonalRamp": ["#FDFBF6", "#F6F1E7", "#EEE6D6"] },
+      "botanical-green": { "role": "primary", "displayName": "Botanical Green", "canonical": "#2F4A2A", "tonalRamp": ["#E1E8DB", "#9DB394", "#3E5E38", "#2F4A2A", "#1F3320"] },
+      "gold": { "role": "tertiary", "displayName": "Warm Gold", "canonical": "#C9A24A", "tonalRamp": ["#C9A24A"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Wordmark H1 and the passage scent names." },
+      "product-name": { "displayName": "Product name", "purpose": "Every scent tile in the one-screen grid." }
+    },
+    "shadows": [
+      { "name": "sheet", "value": "0 10px 40px rgb(31 42 29 / .16)", "purpose": "Cart drawer." },
+      { "name": "bar", "value": "0 -8px 24px rgb(47 74 42 / .10)", "purpose": "Sticky add-to-cart bar." },
+      { "name": "jar-drop", "value": "drop-shadow(0 22px 30px rgb(47 74 42 / .14))", "purpose": "Cutout jar on the counter." }
+    ],
+    "motion": [
+      { "name": "ease", "value": "cubic-bezier(.2,.7,.2,1)", "purpose": "Default state transitions." },
+      { "name": "ease-out", "value": "cubic-bezier(.16,1,.3,1)", "purpose": "Drawer and toast entrances." }
+    ],
+    "breakpoints": [ { "name": "tablet", "value": "640px" }, { "name": "two-column", "value": "720px" }, { "name": "desktop", "value": "900px" }, { "name": "wide", "value": "1200px" } ]
+  },
+  "components": [
+    { "name": "Primary Button", "kind": "button", "refersTo": "button-primary", "description": "The one filled control per screen.", "html": "<button class=\"ds-btn-primary\">Add to cart <span class=\"ds-price\">$15</span></button>", "css": ".ds-btn-primary { display:inline-flex; align-items:center; gap:.5rem; min-height:50px; padding:0 26px; border:0; border-radius:999px; background:#2F4A2A; color:#fff; font:700 16px 'Nunito Sans', sans-serif; cursor:pointer; transition:background .15s, transform .15s } .ds-btn-primary:hover { background:#3E5E38 } .ds-btn-primary:active { transform:translateY(1px) } .ds-btn-primary:focus-visible { outline:3px solid #2F4A2A; outline-offset:3px } .ds-price { padding-left:8px; margin-left:6px; border-left:1px solid rgb(255 255 255 / .35); font-variant-numeric:tabular-nums }" },
+    { "name": "Text Button", "kind": "button", "refersTo": "text-button", "description": "Every secondary action.", "html": "<button class=\"ds-text-btn\">Build a flight</button>", "css": ".ds-text-btn { background:none; border:0; padding:0; font:700 16px 'Nunito Sans', sans-serif; color:#1F3320; text-decoration:underline; text-decoration-thickness:1.5px; text-underline-offset:4px; cursor:pointer } .ds-text-btn:hover { color:#2F4A2A } .ds-text-btn:focus-visible { outline:3px solid #2F4A2A; outline-offset:3px }" },
+    { "name": "Scent Tile", "kind": "chip", "refersTo": "product-name", "description": "A scent in the one-screen grid; selection is weight + underline.", "html": "<div class=\"ds-tiles\"><button class=\"ds-tile\" aria-pressed=\"true\"><span class=\"ds-num\">1</span><span class=\"ds-name\">Pistachio Salted Caramel</span></button><button class=\"ds-tile\" aria-pressed=\"false\"><span class=\"ds-name\">Cashmere Vanilla</span></button></div>", "css": ".ds-tiles { display:flex; gap:22px; background:#F6F1E7; padding:12px } .ds-tile { display:flex; gap:5px; align-items:flex-start; background:none; border:0; padding:6px 0; cursor:pointer; text-align:left } .ds-name { font:600 1.15rem/1.12 'Cormorant Garamond', Georgia, serif; color:#1F3320; text-decoration-thickness:2px; text-underline-offset:4px; text-decoration-color:#2F4A2A } .ds-tile:hover .ds-name { text-decoration-line:underline; text-decoration-color:rgb(47 74 42 / .45) } .ds-tile[aria-pressed=true] .ds-name { font-weight:700; text-decoration-line:underline } .ds-num { font:800 .72rem/1.5 'Nunito Sans', sans-serif; color:#C9A24A } .ds-tile:focus-visible { outline:3px solid #2F4A2A; outline-offset:3px; border-radius:4px }" },
+    { "name": "Size Option", "kind": "chip", "refersTo": "text-button", "description": "Variant option with tabular price beneath.", "html": "<div class=\"ds-seg\"><button class=\"ds-opt\" aria-pressed=\"false\"><span class=\"ds-lbl\">2 oz</span><span class=\"ds-sub\">$10</span></button><button class=\"ds-opt\" aria-pressed=\"true\"><span class=\"ds-lbl\">4 oz</span><span class=\"ds-sub\">$15</span></button></div>", "css": ".ds-seg { display:flex; gap:22px; background:#F6F1E7; padding:12px } .ds-opt { display:inline-flex; flex-direction:column; align-items:flex-start; min-height:44px; padding:4px 0; background:none; border:0; cursor:pointer; font:400 1rem/1.2 'Nunito Sans', sans-serif } .ds-lbl { color:#1F3320; text-decoration-thickness:2px; text-underline-offset:4px; text-decoration-color:#2F4A2A } .ds-opt[aria-pressed=true] .ds-lbl { font-weight:700; text-decoration-line:underline } .ds-sub { font-size:.8rem; color:#5A6657; font-variant-numeric:tabular-nums }" },
+    { "name": "Input", "kind": "input", "refersTo": "input", "description": "Strokeless field on the paper form surface.", "html": "<div class=\"ds-form\"><label class=\"ds-label\" for=\"ds-n\">Name</label><input class=\"ds-input\" id=\"ds-n\" placeholder=\"\"></div>", "css": ".ds-form { display:grid; gap:6px; padding:24px; background:#FDFBF6; border-radius:22px } .ds-label { font:700 .95rem 'Nunito Sans', sans-serif; color:#1F2A1D } .ds-input { min-height:50px; padding:10px 14px; border:0; border-radius:10px; background:#F6F1E7; font:400 16px 'Nunito Sans', sans-serif; caret-color:#2F4A2A } .ds-input:focus { outline:3px solid #2F4A2A; outline-offset:2px }" },
+    { "name": "Navigation", "kind": "nav", "refersTo": "text-button", "description": "Sticky cream bar with no rule.", "html": "<nav class=\"ds-nav\"><span class=\"ds-wordmark\">VALEO BODY</span><span class=\"ds-links\"><a href=\"#\">Shop</a><a href=\"#\">Cart <span class=\"ds-count\">2</span></a></span></nav>", "css": ".ds-nav { display:flex; justify-content:space-between; align-items:center; height:64px; padding:0 24px; background:rgb(246 241 231 / .88); backdrop-filter:blur(12px) } .ds-wordmark { font:700 1.5rem 'Cormorant Garamond', Georgia, serif; letter-spacing:.14em; color:#1F3320 } .ds-links { display:flex; gap:22px } .ds-links a { font:700 16px 'Nunito Sans', sans-serif; color:#1F3320; text-decoration:none } .ds-links a:hover { text-decoration:underline; text-decoration-thickness:2px; text-underline-offset:5px } .ds-count { display:inline-grid; place-items:center; min-width:24px; height:24px; padding:0 7px; border-radius:12px; background:#2F4A2A; color:#fff; font-size:.8rem }" }
+  ],
+  "narrative": {
+    "northStar": "The Jar on the Counter",
+    "overview": "One jar, photographed once, sits on dairy cream and never moves; the scent worlds move past it. Typographic before graphic: Cormorant names things, Nunito Sans operates. Selection is weight plus a green underline; one filled control per screen; no hairlines, chips, badges, or cards; photographs float on the ground.",
+    "keyCharacteristics": ["Dairy cream ground, botanical green voice, gold ≤3 marks per viewport", "Selected = 700 + 2px green underline", "One filled button per screen", "Zero hairline dividers", "Photography and lazy video on the ground, unframed"],
+    "rules": [
+      { "name": "The One Filled Control Rule", "body": "Per screen, exactly one element has an opaque filled background acting as a control.", "section": "colors" },
+      { "name": "The Three Gold Marks Rule", "body": "Gold is visible at most three times in any viewport.", "section": "colors" },
+      { "name": "The No Hairline Rule", "body": "Nothing separates with a 1px stroke.", "section": "elevation" },
+      { "name": "The Serif Names Things Rule", "body": "Scents, products, totals and the brand are Cormorant; instructions and sub-labels are Nunito Sans.", "section": "typography" }
+    ],
+    "dos": ["Do indicate selection with weight + a 2px green underline offset 4px, identically everywhere.", "Do separate with whitespace or a tonal step.", "Do float photographs on the ground."],
+    "donts": ["Don't draw a 1px rule anywhere.", "Don't fill more than one control per screen.", "Don't put a scent in a tinted chip, card, or behind an icon.", "Don't add kickers, badges, numbered counters, or emoji-class icons."]
+  }
+}

@@ -4,7 +4,7 @@ export type ProductKind = 'butter' | 'scrub';
 export interface Product { id: string; name: string; short: string; kind: ProductKind; image: string; blurb: string; ingredients: string[] }
 export interface Size { id: string; label: string; prices: Record<ProductKind, number> }
 export interface Mood { id: string; label: string; color: string }
-export interface Fragrance { id: string; name: string; mood: string; tint: string; swatch: string; note: string; tag?: string; hero?: string }
+export interface Fragrance { id: string; name: string; mood: string; tint: string; swatch: string; note: string; tag?: string; hero?: string; heroVideo?: string }
 export interface FlightSlot { size: string; kind?: ProductKind }
 export interface Flight { id: string; name: string; slots: FlightSlot[] }
 export interface Catalog {

@@ -67,8 +67,10 @@ const swatches = {
     <ellipse cx="22" cy="26" rx="8" ry="3" fill="#F6ECEC"/><ellipse cx="42" cy="30" rx="8" ry="3" fill="#F6ECEC"/>
     <path d="M40 18c-3-4-8-1-6 3l6 5 6-5c2-4-3-7-6-3z" fill="#E8607A"/>`,
   'pumpkin-marshmallow': `
-    <g fill="#EE8A3A"><ellipse cx="32" cy="36" rx="18" ry="14"/><ellipse cx="22" cy="36" rx="8" ry="14" fill="#E07A2C"/><ellipse cx="42" cy="36" rx="8" ry="14" fill="#E07A2C"/><ellipse cx="32" cy="36" rx="7" ry="14"/></g>
-    <rect x="30" y="16" width="5" height="8" rx="2" fill="#6F8A63"/>${leaf(36, 18, -10, 0.5)}`,
+    <g fill="#EE8A3A"><ellipse cx="20" cy="42" rx="12" ry="9"/><ellipse cx="14" cy="42" rx="5" ry="9" fill="#E07A2C"/><ellipse cx="26" cy="42" rx="5" ry="9" fill="#E07A2C"/><ellipse cx="20" cy="42" rx="4" ry="9"/></g>
+    <rect x="18.5" y="30" width="3" height="6" rx="1.5" fill="#6F8A63"/>${leaf(23, 31, -10, 0.4)}
+    <g fill="#FFF8EA" stroke="${INK}" stroke-opacity=".2"><rect x="36" y="18" width="13" height="14" rx="4"/><rect x="41" y="32" width="12" height="13" rx="4"/></g>
+    <g fill="#8A4B22" opacity=".5"><rect x="38" y="20" width="3" height="2" rx="1"/><rect x="44" y="26" width="3" height="2" rx="1"/><rect x="45" y="35" width="3" height="2" rx="1"/></g>`,
   'other': `<path d="M32 18v28M18 32h28" stroke="${INK}" stroke-width="4" stroke-linecap="round"/>`,
 };
 
