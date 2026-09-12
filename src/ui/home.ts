@@ -30,14 +30,14 @@ export function renderHome(root: HTMLElement): void {
             <a class="text-btn" href="${page('shop/?mode=flight&option=A')}">Build a flight</a>
           </div>
         </div>
-        <div class="hero-jar"><img src="${jarSmall}" alt="An open jar of Valeo whipped body butter, wooden lid resting against it" width="640" height="608" fetchpriority="high"></div>
+        <div class="hero-jar"><img src="${jarSmall}" alt="An open jar of Valeo whipped body butter, wooden lid resting against it" width="640" height="603" fetchpriority="high"></div>
       </div>
     </section>
 
     <section class="passage" id="worlds" style="--n:${worlds.length}" aria-label="Scent worlds">
       <div class="stage">
         ${worlds.map((f, i) => `<div class="pworld${i === 0 ? ' is-live' : ''}" data-name="${escapeHtml(f.name)}" data-tint="${f.tint}" data-bg="${f.heroPBg ?? ''}" data-note-html="${escapeHtml(`${escapeHtml(f.note)} <span class=&quot;mood&quot;>· ${escapeHtml(mood(f.mood)?.label ?? '')}</span>`)}" aria-hidden="true">${i === 0 ? `<picture>${f.heroP ? `<source media="(max-width: 719px)" srcset="${asset(f.heroP)}">` : ''}<img src="${asset(f.hero!)}" srcset="${asset(f.heroM ?? f.hero!)} 720w, ${asset(f.hero!)} 1200w" sizes="100vw" alt="" width="1200" height="800" fetchpriority="high"></picture>` : `<picture>${f.heroP ? `<source media="(max-width: 719px)" data-srcset="${asset(f.heroP)}">` : ''}<img data-src="${asset(f.hero!)}" data-srcset="${asset(f.heroM ?? f.hero!)} 720w, ${asset(f.hero!)} 1200w" sizes="100vw" alt="" width="1200" height="800"></picture>`}${f.heroVideo ? `<video muted playsinline preload="none" data-src="${asset(f.heroVideo)}" ${f.heroVideoP ? `data-src-p="${asset(f.heroVideoP)}"` : ''}></video>` : ''}</div>`).join('')}
-        <div class="stage-jar" aria-hidden="true"><img src="${jarSmall}" alt="" width="640" height="608"></div>
+        <div class="stage-jar" aria-hidden="true"><img src="${jarSmall}" alt="" width="640" height="603"></div>
         <div class="stage-text"><div class="stop-name" data-passage-name>${escapeHtml(worlds[0]?.name ?? '')}</div><p class="stop-note" data-passage-note></p><div class="stage-rail" data-passage-rail aria-hidden="true">${worlds.map(() => '<span></span>').join('')}</div></div>
       </div>
     </section>

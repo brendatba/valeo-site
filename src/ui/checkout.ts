@@ -66,11 +66,16 @@ export function renderCheckout(root: HTMLElement): void {
     btn.disabled = true; btn.textContent = 'Placing order…';
     const order = buildOrder(customer, cart.lines);
     saveLastOrder(order);
-    const sent = await submitOrder(order);
     cart.clear();
     history.replaceState(null, '', `${location.pathname}?order=${order.number}`);
-    renderConfirmation(root, order, sent);
+    renderConfirmation(root, order, null);
     window.scrollTo({ top: 0 });
+    // On a phone, open the text composer straight from the tap so the order is one "Send" away from Shauna.
+    const phone = /iPhone|iPad|Android/i.test(navigator.userAgent);
+    if (phone) setTimeout(() => { location.href = smsLink(order); }, 350);
+    const sent = await submitOrder(order);
+    const status = root.querySelector<HTMLElement>('#deliver-status');
+    if (status && sent.ok) { status.dataset.ok = 'true'; status.textContent = '✓ Sent to Shauna automatically. Texting it too is fine.'; }
   });
 }
 
@@ -89,24 +94,24 @@ function renderConfirmation(root: HTMLElement, o: Order, sent: { ok: boolean; re
   root.innerHTML = `
     <div class="confirm" style="grid-column:1/-1;max-width:720px">
       <div><h1>Thank you, ${escapeHtml(o.customer.name.split(' ')[0])}.</h1>
-        <p class="muted" style="margin-top:8px">Your order number is below. Shauna will text ${escapeHtml(o.customer.phone)} to confirm ${o.customer.fulfillment === 'pickup' ? 'pickup' : 'delivery'}.</p></div>
+        <p class="muted" style="margin-top:8px">Two quick steps and it's done. Shauna will text ${escapeHtml(o.customer.phone)} to confirm ${o.customer.fulfillment === 'pickup' ? 'pickup' : 'delivery'}.</p></div>
       <div class="ordno" id="order-number" aria-label="Order number">${o.number}</div>
 
+      <section class="deliver summary-card" aria-labelledby="deliver-title">
+        <h2 id="deliver-title" style="font-size:1.5rem">Step 1 · Send it to Shauna</h2>
+        <p class="status" id="deliver-status" data-ok="${sent?.ok ? 'true' : 'false'}">${sent?.ok ? '✓ Sent to Shauna automatically. Texting it too is fine.' : 'Your order reaches Shauna when you send this. The message is already written, just tap send.'}</p>
+        <div class="paths">
+          <a class="btn btn-primary" id="sms-link" href="${smsLink(o)}">Text it to Shauna</a>
+          <a class="text-btn" id="mail-link" href="${mailtoLink(o)}">Email it instead</a>
+        </div>
+      </section>
+
       <section class="venmo" aria-labelledby="venmo-title">
-        <h2 id="venmo-title" style="font-size:1.4rem;color:#1E3A8A">Pay with Venmo</h2>
+        <h2 id="venmo-title" style="font-size:1.5rem;color:#1E3A8A">Step 2 · Pay with Venmo</h2>
         <div class="amount" id="venmo-amount">${money(o.total)}</div>
         <p>${handle ? `Send it to <strong>${escapeHtml(handle)}</strong> on Venmo.` : 'Shauna will text you her Venmo handle when she confirms the order.'} Put your order number in the memo so it matches up:</p>
         <div class="memo"><code id="venmo-memo">${o.number}</code><button type="button" class="btn btn-soft btn-sm" id="copy-memo">Copy</button></div>
         ${venmo ? `<a class="btn btn-primary" href="${venmo}" rel="noopener" style="background:#008CFF">Open Venmo · ${money(o.total)}</a>` : ''}
-      </section>
-
-      <section class="deliver summary-card" aria-labelledby="deliver-title">
-        <h2 id="deliver-title" style="font-size:1.3rem">Send Shauna your order</h2>
-        <p class="status" id="deliver-status" data-ok="${sent?.ok ? 'true' : 'false'}">${sent?.ok ? '✓ Sent to Shauna automatically. Use a button below if you want a copy in your own thread.' : 'Tap one of these so the order lands in Shauna\'s texts or inbox. Either one works.'}</p>
-        <div class="paths">
-          <a class="btn btn-primary" id="sms-link" href="${smsLink(o)}">Text this to Shauna</a>
-          <a class="btn btn-ghost" id="mail-link" href="${mailtoLink(o)}">Email it instead</a>
-        </div>
       </section>
 
       <section class="summary-card" aria-labelledby="sum-title">
