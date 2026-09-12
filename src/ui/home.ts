@@ -36,9 +36,9 @@ export function renderHome(root: HTMLElement): void {
 
     <section class="passage" id="worlds" style="--n:${worlds.length}" aria-label="Scent worlds">
       <div class="stage">
-        ${worlds.map((f, i) => `<div class="pworld${i === 0 ? ' is-live' : ''}" data-name="${escapeHtml(f.name)}" data-tint="${f.tint}" data-note-html="${escapeHtml(`${escapeHtml(f.note)} <span class=&quot;mood&quot;>· ${escapeHtml(mood(f.mood)?.label ?? '')}</span>`)}" aria-hidden="true"><img src="${asset(f.hero!)}" srcset="${asset(f.heroM ?? f.hero!)} 720w, ${asset(f.hero!)} 1200w" sizes="100vw" alt="" width="1200" height="800" ${i === 0 ? 'fetchpriority="high"' : 'loading="lazy"'}>${f.heroVideo ? `<video muted playsinline preload="none" data-src="${asset(f.heroVideo)}"></video>` : ''}</div>`).join('')}
+        ${worlds.map((f, i) => `<div class="pworld${i === 0 ? ' is-live' : ''}" data-name="${escapeHtml(f.name)}" data-tint="${f.tint}" data-note-html="${escapeHtml(`${escapeHtml(f.note)} <span class=&quot;mood&quot;>· ${escapeHtml(mood(f.mood)?.label ?? '')}</span>`)}" aria-hidden="true"><img class="blur" ${i === 0 ? `src="${asset(f.heroM ?? f.hero!)}"` : `data-src="${asset(f.heroM ?? f.hero!)}"`} alt="" width="720" height="480">${i === 0 ? `<img src="${asset(f.hero!)}" srcset="${asset(f.heroM ?? f.hero!)} 720w, ${asset(f.hero!)} 1200w" sizes="100vw" alt="" width="1200" height="800" fetchpriority="high">` : `<img data-src="${asset(f.hero!)}" data-srcset="${asset(f.heroM ?? f.hero!)} 720w, ${asset(f.hero!)} 1200w" sizes="100vw" alt="" width="1200" height="800">`}${f.heroVideo ? `<video muted playsinline preload="none" data-src="${asset(f.heroVideo)}"></video>` : ''}</div>`).join('')}
         <div class="stage-jar" aria-hidden="true"><img src="${jarSmall}" alt="" width="640" height="608"></div>
-        <p class="stage-hint">Scroll · the jar stays, the world changes</p>
+        <p class="stage-hint"><span>Scroll · the jar stays, the world changes</span></p>
         <div class="stage-text"><div class="stop-name" data-passage-name>${escapeHtml(worlds[0]?.name ?? '')}</div><p class="stop-note" data-passage-note></p><div class="stage-rail" data-passage-rail aria-hidden="true">${worlds.map(() => '<span></span>').join('')}</div></div>
       </div>
     </section>

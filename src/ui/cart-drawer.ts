@@ -63,7 +63,7 @@ function lineView(line: CartLine): HTMLElement {
         <div class="l-meta">${f.name} · ${money(b.retail)} retail − ${money(b.discount)} + ${money(b.slab)} slab</div>
         <div class="l-actions"><a class="link-btn" href="${page(`shop/?mode=flight&option=${line.option}&edit=${line.id}`)}">Edit</a><button type="button" class="link-btn" data-act="remove">Remove</button></div></div>
       <div class="l-price price">${price}</div>
-      <details><summary>${line.jars.length} jars on the slab</summary><ul>${line.jars.map((j) => `<li>${escapeHtml(fragranceName(j.fragrance, j.otherText))} · ${product(j.product).name} · ${size(j.size).label}</li>`).join('')}</ul></details>`;
+      <details open><summary>${line.jars.length} jars on the slab</summary><ul>${line.jars.map((j) => `<li>${escapeHtml(fragranceName(j.fragrance, j.otherText))} · ${product(j.product).name} · ${size(j.size).label}</li>`).join('')}</ul></details>`;
     node.querySelector('[data-act="remove"]')!.addEventListener('click', () => cart.remove(line.id));
     return node;
   }
@@ -75,7 +75,7 @@ function lineView(line: CartLine): HTMLElement {
       <div class="l-meta">${s.isSet ? `Set of ${s.setSize} for ${money(s.setPrice)}` : `${money(s.each)} each`}</div>
       <div class="l-actions"><a class="link-btn" href="${page(`shop/?mode=sample&edit=${line.id}`)}">Edit</a><button type="button" class="link-btn" data-act="remove">Remove</button></div></div>
     <div class="l-price price">${price}</div>
-    <details><summary>${line.minis.length} minis</summary><ul>${line.minis.map((m) => `<li>${escapeHtml(fragranceName(m.fragrance, m.otherText))} · ${product(m.product).name}</li>`).join('')}</ul></details>`;
+    <details open><summary>${line.minis.length} minis</summary><ul>${line.minis.map((m) => `<li>${escapeHtml(fragranceName(m.fragrance, m.otherText))} · ${product(m.product).name}</li>`).join('')}</ul></details>`;
   node.querySelector('[data-act="remove"]')!.addEventListener('click', () => cart.remove(line.id));
   return node;
 }

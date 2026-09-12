@@ -5,7 +5,7 @@ const browser=await chromium.launch({args:['--autoplay-policy=no-user-gesture-re
 const page=await browser.newPage({viewport:{width:390,height:844},deviceScaleFactor:1});
 const errs=[]; page.on('console',m=>{ if(['error','warning'].includes(m.type())) errs.push(m.type()+': '+m.text()); }); page.on('pageerror',e=>errs.push('pageerror: '+e.message));
 const tile=(name)=>page.locator('.tile',{hasText:new RegExp('^\\s*'+name.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'\\s*$')}).first();
-// Probe A: Option C, pick jar1 then jar2 scent without choosing product
+if(false){ // Probe A: Option C, pick jar1 then jar2 scent without choosing product
 await page.goto(BASE+'shop/?mode=flight&option=C',{waitUntil:'networkidle'}); await page.evaluate(()=>localStorage.clear()); await page.reload({waitUntil:'networkidle'});
 await tile('Honey Vanilla').click(); await tile('Cinnamon Roll').click(); await page.waitForTimeout(300);
 console.log('PROBE A slots:', JSON.stringify(await page.evaluate(()=>Array.from(document.querySelectorAll('.slot')).map(s=>s.innerText.replace(/\s+/g,' ').trim()))), 'bar:', await page.evaluate(()=>document.querySelector('#bar-add')?.closest('div,section,footer')?.innerText.replace(/\s+/g,' ').trim()));
@@ -20,11 +20,11 @@ await page.screenshot({path:`${dir}/m-probeC-checkout-flight-full.png`,fullPage:
 await page.fill('#f-name','Probe C'); await page.fill('#f-phone','2535550101'); await page.locator('#place-order').click(); await page.waitForTimeout(600);
 await page.screenshot({path:`${dir}/m-probeC-confirm-flight-full.png`,fullPage:true}); console.log('PROBE C confirmation:', await page.evaluate(()=>document.querySelector('main')?.innerText.replace(/\s+/g,' ').trim()));
 console.log('PROBE C links:', JSON.stringify(await page.evaluate(()=>Array.from(document.querySelectorAll('main a')).map(a=>({t:a.innerText.trim(),href:a.getAttribute('href')})))));
-// Probe D: single mode empty-src image
+} // Probe D
 await page.goto(BASE+'shop/',{waitUntil:'networkidle'}); await page.evaluate(()=>localStorage.clear()); await page.reload({waitUntil:'networkidle'});
 console.log('PROBE D imgs w/o src:', JSON.stringify(await page.evaluate(()=>Array.from(document.images).filter(i=>!(i.complete&&i.naturalWidth>0)).map(i=>({html:i.outerHTML.slice(0,200), w:i.getBoundingClientRect().width, vis:getComputedStyle(i).visibility, disp:getComputedStyle(i).display})))));
 // Probe E: "+ Other" tile
-await tile('+ Other').scrollIntoViewIfNeeded(); await page.locator('.tile.other').click(); await page.waitForTimeout(400); await page.screenshot({path:`${dir}/m-probeE-other.png`});
+await page.locator('.tile.other').scrollIntoViewIfNeeded(); await page.locator('.tile.other').click(); await page.waitForTimeout(400); await page.screenshot({path:`${dir}/m-probeE-other.png`});
 console.log('PROBE E other-text visible', await page.locator('#other-text').isVisible(), 'bar:', await page.evaluate(()=>document.querySelector('#bar-add')?.closest('div,section,footer')?.innerText.replace(/\s+/g,' ').trim()));
 // Probe F: filter chips rail — does it scroll horizontally within itself?
 console.log('PROBE F chip rail', JSON.stringify(await page.evaluate(()=>{const c=document.querySelector('.chip'); const rail=c.parentElement; const cs=getComputedStyle(rail); return {overflowX:cs.overflowX, sw:rail.scrollWidth, cw:rail.clientWidth, docW:document.documentElement.scrollWidth};})));

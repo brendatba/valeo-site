@@ -14,7 +14,7 @@ interface State {
   option: string;
   filter: string;
   single: { fragrance: string | null; otherText: string; product: string; size: string };
-  flight: { activeSlot: number; slots: (Pick | null)[] };
+  flight: { activeSlot: number; slots: (Pick | null)[]; nextProduct: string };
   sample: { active: number | null; minis: Pick[]; product: string };
   editId: string | null;
 }
@@ -38,7 +38,7 @@ export function mountPicker(root: HTMLElement): void {
     option: catalog.bundles.flights.some((f) => f.id === params.get('option')) ? params.get('option')! : catalog.bundles.flights[0].id,
     filter: 'all',
     single: { fragrance: null, otherText: '', product: defaultProduct, size: defaultSize },
-    flight: { activeSlot: 0, slots: [] },
+    flight: { activeSlot: 0, slots: [], nextProduct: defaultProduct },
     sample: { active: null, minis: [], product: catalog.bundles.samples.defaultProduct },
     editId: null,
   };
@@ -142,7 +142,7 @@ export function mountPicker(root: HTMLElement): void {
       state.single.fragrance = id;
     } else if (state.mode === 'flight') {
       const f = flight(state.option); const i = state.flight.activeSlot; const slot = f.slots[i]; const existing = state.flight.slots[i];
-      state.flight.slots[i] = { fragrance: id, otherText: existing?.otherText ?? '', product: existing?.product ?? productForSlot(slot.kind, state.single.product) };
+      state.flight.slots[i] = { fragrance: id, otherText: existing?.otherText ?? '', product: existing?.product ?? productForSlot(slot.kind, state.flight.nextProduct) };
       const nextEmpty = state.flight.slots.findIndex((s, j) => j > i && s === null);
       const firstEmpty = state.flight.slots.findIndex((s) => s === null);
       if (id !== OTHER_ID) state.flight.activeSlot = nextEmpty >= 0 ? nextEmpty : firstEmpty >= 0 ? firstEmpty : i;
@@ -162,7 +162,7 @@ export function mountPicker(root: HTMLElement): void {
     else if (state.mode === 'flight') {
       const i = state.flight.activeSlot; const s = state.flight.slots[i];
       if (s) { s.product = id; const next = state.flight.slots.findIndex((x, j) => j !== i && x === null); if (next >= 0) state.flight.activeSlot = next; }
-      else state.single.product = id;
+      else state.flight.nextProduct = id;
     } else {
       if (state.sample.active !== null && state.sample.minis[state.sample.active]) { state.sample.minis[state.sample.active].product = id; state.sample.active = null; }
       else state.sample.product = id;
@@ -240,17 +240,18 @@ export function mountPicker(root: HTMLElement): void {
     const box = el('div', { class: 'builder' });
     if (state.mode === 'flight') {
       const f = flight(state.option);
-      const b = flightTotal(state.option, state.flight.slots.map((s, i) => (s ? { product: s.product, size: f.slots[i].size } : null)));
+      const filled = state.flight.slots.filter(Boolean).length;
+      const b = flightTotal(state.option, f.slots.map((slot) => ({ product: slot.kind === 'scrub' ? catalog.products.find((p) => p.kind === 'scrub')!.id : defaultProduct, size: slot.size })));
       const opts = el('div', { class: 'seg-options options', role: 'group', 'aria-label': 'Flight option' });
       for (const fl of catalog.bundles.flights) {
         const ref = flightTotal(fl.id, fl.slots.map((s) => ({ product: s.kind === 'scrub' ? catalog.products.find((p) => p.kind === 'scrub')!.id : defaultProduct, size: s.size })));
         const o = el('button', { type: 'button', class: 'seg-opt', 'aria-pressed': String(fl.id === state.option), 'data-option': fl.id });
         o.innerHTML = `<span class="lbl">Option ${fl.id}</span><span class="sub">${escapeHtml(fl.name)} · ${money(ref.total)}</span>`;
-        o.addEventListener('click', () => { if (fl.id === state.option) return; state.option = fl.id; state.flight.slots = emptySlots(fl.id); state.flight.activeSlot = 0; state.editId = null; syncUrl(); update(); });
+        o.addEventListener('click', () => { if (fl.id === state.option) return; state.option = fl.id; state.flight.slots = emptySlots(fl.id); state.flight.activeSlot = 0; state.flight.nextProduct = defaultProduct; state.editId = null; syncUrl(); update(); });
         opts.append(o);
       }
       box.append(el('div', { class: 'seg-label' }, el('span', {}, 'Which slab')), opts);
-      const top = el('div', { class: 'builder-top' }, el('div', { class: 'seg-label' }, el('span', {}, 'Jars on the slab')), el('div', { class: 'progress', id: 'flight-progress', 'aria-live': 'polite' }, `${b.filled} of ${b.slots} chosen`));
+      const top = el('div', { class: 'builder-top' }, el('div', { class: 'seg-label' }, el('span', {}, 'Jars on the slab')), el('div', { class: 'progress', id: 'flight-progress', 'aria-live': 'polite' }, `${filled} of ${b.slots} chosen`));
       box.append(top);
       const slots = el('div', { class: 'slots', role: 'group', 'aria-label': 'Jars on the slab' });
       f.slots.forEach((slotDef, i) => {
@@ -292,7 +293,7 @@ export function mountPicker(root: HTMLElement): void {
   function renderVariants(pick: ReturnType<typeof currentPick>): void {
     variantsEl.replaceChildren();
     const slotDef = state.mode === 'flight' ? flight(state.option).slots[state.flight.activeSlot] : undefined;
-    const currentProduct = pick?.product ?? (state.mode === 'sample' ? state.sample.product : state.single.product);
+    const currentProduct = pick?.product ?? (state.mode === 'sample' ? state.sample.product : state.mode === 'flight' ? productForSlot(slotDef?.kind, state.flight.nextProduct) : state.single.product);
     const prodSeg = el('div', { class: 'seg' });
     prodSeg.append(el('div', { class: 'seg-label' }, el('span', {}, state.mode === 'sample' ? (state.sample.active !== null ? `Product for mini ${state.sample.active + 1}` : 'Product for the next mini') : state.mode === 'flight' ? `Product for jar ${state.flight.activeSlot + 1}` : 'Product'), el('span', { class: 'picked' }, product(currentProduct).name)));
     const prodOpts = el('div', { class: 'products', role: 'group', 'aria-label': 'Product' });
@@ -358,18 +359,18 @@ export function mountPicker(root: HTMLElement): void {
       const b = flightTotal(state.option, state.flight.slots.map((s, i) => (s ? { product: s.product, size: f.slots[i].size } : null)));
       const last = [...state.flight.slots].reverse().find(Boolean);
       setThumb(last ? fragrance(last.fragrance) : undefined);
-      barL1.textContent = `Slab flight · Option ${state.option} · ${b.filled} of ${b.slots} jars`;
+      barL1.textContent = `Option ${state.option} · ${b.filled} of ${b.slots} jars`;
       barL2.textContent = b.complete ? `${money(b.retail)} retail − ${money(b.discount)} + ${money(b.slab)} slab` : `Choose ${b.slots - b.filled} more jar${b.slots - b.filled === 1 ? '' : 's'}`;
-      barLabel.textContent = state.editId ? 'Update flight' : 'Add flight to cart';
+      barLabel.textContent = state.editId ? 'Update flight' : 'Add flight';
       barPrice.textContent = money(flightTotal(state.option, f.slots.map((s) => ({ product: s.kind === 'scrub' ? catalog.products.find((p) => p.kind === 'scrub')!.id : defaultProduct, size: s.size }))).total);
       barAdd.disabled = !b.complete;
     } else {
       const s = sampleTotal(state.sample.minis.length);
       const last = state.sample.minis[state.sample.minis.length - 1];
       setThumb(last ? fragrance(last.fragrance) : undefined);
-      barL1.textContent = `Sample minis · ${s.count} of ${s.setSize}`;
+      barL1.textContent = `Minis · ${s.count} of ${s.setSize}`;
       barL2.textContent = s.isSet ? `Set price ${money(s.setPrice)}` : s.count ? `${money(s.each)} each · add ${s.setSize - s.count} more for the ${money(s.setPrice)} set` : `Pick up to ${s.setSize} scents`;
-      barLabel.textContent = state.editId ? 'Update minis' : 'Add minis to cart'; barPrice.textContent = money(s.count ? s.total : s.setPrice); barAdd.disabled = s.count === 0;
+      barLabel.textContent = state.editId ? 'Update minis' : 'Add minis'; barPrice.textContent = money(s.count ? s.total : s.setPrice); barAdd.disabled = s.count === 0;
     }
   }
 
@@ -379,6 +380,6 @@ export function mountPicker(root: HTMLElement): void {
 function loadLine(state: State, line: CartLine): void {
   state.editId = line.id;
   if (line.kind === 'jar') { state.mode = 'single'; state.single = { fragrance: line.fragrance, otherText: line.otherText ?? '', product: line.product, size: line.size }; }
-  else if (line.kind === 'flight') { state.mode = 'flight'; state.option = line.option; state.flight = { activeSlot: 0, slots: line.jars.map((j) => ({ fragrance: j.fragrance, otherText: j.otherText ?? '', product: j.product })) }; }
+  else if (line.kind === 'flight') { state.mode = 'flight'; state.option = line.option; state.flight = { activeSlot: 0, nextProduct: defaultProduct, slots: line.jars.map((j) => ({ fragrance: j.fragrance, otherText: j.otherText ?? '', product: j.product })) }; }
   else { state.mode = 'sample'; state.sample = { active: null, product: catalog.bundles.samples.defaultProduct, minis: line.minis.map((m) => ({ fragrance: m.fragrance, otherText: m.otherText ?? '', product: m.product })) }; }
 }

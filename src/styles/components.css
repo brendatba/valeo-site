@@ -28,7 +28,7 @@
 /* ---------- Mood filter: an inline text list ---------- */
 .chips { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 0; font-size: .95rem; }
 @media (max-width: 719px) { .chips { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin-inline: calc(-1 * var(--gutter)); padding-inline: var(--gutter) 56px; -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 48px), transparent); mask-image: linear-gradient(to right, #000 calc(100% - 48px), transparent); } .chips::-webkit-scrollbar { display: none; } .chip { white-space: nowrap; } }
-.chip { min-height: 40px; color: var(--ink-soft); padding: 0 2px; }
+.chip { flex: 0 0 auto; min-height: 44px; min-width: 44px; color: var(--ink-soft); padding: 0 4px; }
 .chip + .chip::before { content: '·'; color: var(--ink-mute); margin: 0 10px; font-weight: 400; }
 .chip .dot { display: none; }
 
@@ -109,7 +109,7 @@
 .seg-label { display: flex; justify-content: space-between; align-items: baseline; font-weight: 700; font-size: .95rem; }
 .seg-label .picked { color: var(--ink-soft); font-weight: 500; }
 .seg-options { display: flex; flex-wrap: wrap; gap: 2px 22px; }
-.seg-opt { display: inline-flex; flex-direction: column; align-items: flex-start; min-height: 44px; padding: 4px 0; color: var(--ink-soft); font-size: 1rem; line-height: 1.2; }
+.seg-opt { display: inline-flex; flex-direction: column; align-items: flex-start; min-height: 44px; min-width: 44px; padding: 4px 4px 4px 0; color: var(--ink-soft); font-size: 1rem; line-height: 1.2; }
 .seg-opt .lbl { color: var(--green-ink); }
 .seg-opt .sub { font-size: .8rem; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
 .seg-opt[disabled] { opacity: .35; cursor: not-allowed; }
@@ -139,9 +139,10 @@
 .bar { position: fixed; left: 0; right: 0; bottom: var(--vv-offset, 0px); z-index: 50; background: rgb(246 241 231 / .97); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: var(--shadow-bar); padding: 12px var(--gutter) calc(12px + env(safe-area-inset-bottom)); }
 .bar .wrap { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
 .bar .summary { display: grid; min-width: 0; }
-.bar .summary .line1 { font-family: var(--font-display); font-weight: 600; font-size: 1.1rem; line-height: 1.15; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--green-ink); }
+.bar .summary .line1 { font-family: var(--font-display); font-weight: 600; font-size: 1.05rem; line-height: 1.12; color: var(--green-ink); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .bar .summary .line2 { font-size: .82rem; color: var(--ink-soft); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.bar .btn { flex: 0 0 auto; }
+.bar .btn { flex: 0 0 auto; padding: 0 18px; }
+@media (max-width: 419px) { .bar .btn { padding: 0 14px; font-size: .95rem; } .bar .wrap { gap: 10px; } }
 .bar .btn .price { padding-left: 8px; margin-left: 6px; border-left: 1px solid rgb(255 255 255 / .35); }
 
 /* ---------- Cart drawer ---------- */
@@ -262,6 +263,8 @@ pre.order-text { white-space: pre-wrap; font-family: ui-monospace, SFMono-Regula
 .stage .pworld { position: absolute; inset: 0; opacity: 0; transition: opacity .55s var(--ease-out); }
 .stage .pworld.is-live { opacity: 1; }
 .stage .pworld img, .stage .pworld video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.stage .pworld img.blur { display: none; }
+@media (max-width: 719px) { .stage .pworld img.blur { display: block; filter: blur(28px) saturate(1.1); transform: scale(1.15); } .stage .pworld img:not(.blur), .stage .pworld video { object-fit: contain; } }
 .stage .pworld video { opacity: 0; transition: opacity .4s; }
 .stage .pworld.is-live video[src] { opacity: 1; }
 .stage-jar { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -54%); width: clamp(150px, 30vw, 300px); z-index: 2; pointer-events: none; }
@@ -273,5 +276,6 @@ pre.order-text { white-space: pre-wrap; font-family: ui-monospace, SFMono-Regula
 .stage-rail { display: flex; gap: 8px; }
 .stage-rail span { width: 22px; height: 3px; border-radius: 2px; background: rgb(47 74 42 / .18); transition: background .3s; }
 .stage-rail span.on { background: var(--green); }
-.stage-hint { position: absolute; top: calc(var(--header-h) + 12px); left: var(--gutter); z-index: 3; font-size: .9rem; color: var(--ink-soft); }
+.stage-hint { position: absolute; top: calc(var(--header-h) + 12px); left: var(--gutter); z-index: 3; font-size: .85rem; color: var(--green-ink); }
+.stage-hint span { display: inline-block; padding: 6px 12px; border-radius: 999px; background: rgb(246 241 231 / .82); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
 @media (min-width: 900px) { .stage-text { left: auto; right: var(--gutter); bottom: 48px; max-width: 380px; padding: 20px 24px; } .stage-jar { width: clamp(220px, 24vw, 340px); } }

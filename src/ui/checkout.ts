@@ -44,6 +44,8 @@ export function renderCheckout(root: HTMLElement): void {
   const form = root.querySelector<HTMLFormElement>('#order-form')!;
   const addrWrap = root.querySelector<HTMLElement>('#f-address-wrap')!;
   form.querySelectorAll<HTMLInputElement>('input[name="fulfillment"]').forEach((r) => r.addEventListener('change', () => { addrWrap.hidden = form.fulfillment.value !== 'delivery'; }));
+  // Validation errors clear as soon as the customer types.
+  form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('input, textarea').forEach((f) => f.addEventListener('input', () => { const w = f.closest<HTMLElement>('.field'); if (w) w.dataset.invalid = 'false'; }));
 
   form.addEventListener('submit', async (e) => {
     e.preventDefault();

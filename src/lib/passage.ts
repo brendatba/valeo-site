@@ -24,20 +24,21 @@ export function mountPassage(section: HTMLElement): void {
   let active = -1;
   let loaded = false;
 
-  // Fetch clips as blobs so seeking is instant; only once the passage is within a viewport.
-  const load = () => {
-    if (loaded || skipMotion) return;
+  // Stills beyond the first attach when the passage is near; clips are fetched one at a time, in order,
+  // as blobs (so seeking is instant), and only after the page has finished its first load.
+  const attachStills = () => worlds.forEach((w) => w.querySelectorAll<HTMLImageElement>('img[data-src]').forEach((img) => { if (img.dataset.srcset) img.srcset = img.dataset.srcset; img.src = img.dataset.src!; delete img.dataset.src; }));
+  const load = async () => {
+    if (loaded) return;
     loaded = true;
-    videos.forEach(async (v) => {
-      if (!v?.dataset.src) return;
-      try {
-        const blob = await (await fetch(v.dataset.src)).blob();
-        v.src = URL.createObjectURL(blob);
-        v.load();
-      } catch { /* poster stays */ }
-    });
+    attachStills();
+    if (skipMotion) return;
+    for (const v of videos) {
+      if (!v?.dataset.src) continue;
+      try { const blob = await (await fetch(v.dataset.src)).blob(); v.src = URL.createObjectURL(blob); } catch { /* poster stays */ }
+    }
   };
-  new IntersectionObserver((es) => { if (es.some((e) => e.isIntersecting)) load(); }, { rootMargin: '100% 0px' }).observe(section);
+  const arm = () => new IntersectionObserver((es, io) => { if (es.some((e) => e.isIntersecting)) { io.disconnect(); load(); } }, { rootMargin: '40% 0px' }).observe(section);
+  if (document.readyState === 'complete') arm(); else window.addEventListener('load', () => setTimeout(arm, 300), { once: true });
 
   const setActive = (i: number) => {
     if (i === active) return;
