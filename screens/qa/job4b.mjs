@@ -1,0 +1,36 @@
+import { chromium } from '@playwright/test';
+const BASE='http://localhost:4173/valeo-site/';
+const dir='/Users/newmac/Work/SHAUNA/site-v1/screens/qa';
+const browser=await chromium.launch({args:['--autoplay-policy=no-user-gesture-required']});
+const [w,h,tag]=[390,844,'m'];
+const page=await browser.newPage({viewport:{width:w,height:h},deviceScaleFactor:1});
+const errs=[]; page.on('console',m=>{ if(['error','warning'].includes(m.type())) errs.push(m.type()+': '+m.text()); }); page.on('pageerror',e=>errs.push('pageerror: '+e.message));
+page.on('dialog',async d=>{console.log('DIALOG',d.message()); await d.dismiss();});
+await page.goto(BASE+'shop/?mode=sample',{waitUntil:'networkidle'}); await page.evaluate(()=>localStorage.clear()); await page.reload({waitUntil:'networkidle'}); await page.waitForTimeout(500);
+const shot=async(n)=>{await page.waitForTimeout(400); await page.screenshot({path:`${dir}/${tag}-j4-${n}.png`});};
+const tile=(name)=>page.locator('.tile',{hasText:new RegExp('^\\s*'+name.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'\\s*$')}).first();
+let taps=0;
+for (const n of ['Coffee','Watermelon','Honey Vanilla','Cinnamon Roll','Coconut Lime']){ await tile(n).scrollIntoViewIfNeeded(); await tile(n).click(); taps++; }
+await page.locator('#bar-add').click(); taps++;
+await page.locator('#cart-drawer a[href*="checkout"], #cart-drawer button:has-text("Checkout")').first().click(); taps++; await page.waitForLoadState('networkidle'); await page.waitForTimeout(400);
+// try placing with nothing filled first
+await page.locator('#place-order').click(); taps++; await shot('06-empty-submit'); console.log('validation msg', await page.evaluate(()=>{const i=document.querySelector('#f-name'); return {valid:i.checkValidity(), msg:i.validationMessage, url:location.pathname}}));
+await page.locator('#f-name').click(); await page.keyboard.type('Test Customer'); taps++;
+await page.locator('#f-phone').click(); await page.keyboard.type('2535550100'); taps++;
+await page.getByText('Local delivery',{exact:false}).first().click(); taps++; await shot('07-delivery');
+console.log('after delivery controls', (await page.evaluate(()=>Array.from(document.querySelectorAll('input,textarea,select,label,p,small,.hint')).filter(e=>e.getBoundingClientRect().width>0).map(e=>{const r=e.getBoundingClientRect();return `${e.tagName}${e.id?'#'+e.id:''}${e.name?'[name='+e.name+']':''} "${(e.innerText||e.placeholder||e.value||'').replace(/\s+/g,' ').trim().slice(0,70)}" @${Math.round(r.top+scrollY)}`;}))).join('\n'));
+const addr=page.locator('#f-address, [name=address], input[placeholder*="ddress"], textarea[placeholder*="ddress"]').first();
+if(await addr.count()){ await addr.click(); await page.keyboard.type('123 Main St, Tacoma WA 98402'); taps++; } else console.log('NO ADDRESS FIELD');
+await shot('08-filled'); await page.screenshot({path:`${dir}/${tag}-j4-08-filled-full.png`,fullPage:true});
+console.log('order button', await page.locator('#place-order').innerText());
+await page.locator('#place-order').click(); taps++; await page.waitForTimeout(800); await shot('09-confirmation'); await page.screenshot({path:`${dir}/${tag}-j4-09-confirmation-full.png`,fullPage:true});
+console.log('URL', page.url());
+console.log('confirmation text:', await page.evaluate(()=>document.querySelector('main')?.innerText.replace(/\s+/g,' ').trim().slice(0,1500)));
+console.log('links:', JSON.stringify(await page.evaluate(()=>Array.from(document.querySelectorAll('main a')).map(a=>({t:a.innerText.trim(),href:a.getAttribute('href')}))),null,1));
+console.log('header cart:', (await page.locator('#cart-open').innerText()).replace(/\s+/g,' '));
+console.log('localStorage:', await page.evaluate(()=>JSON.stringify(Object.fromEntries(Object.entries(localStorage).map(([k,v])=>[k,String(v).slice(0,300)])))));
+await page.locator('#cart-open').click(); taps++; await shot('10-cart-after'); console.log('cart after:', await page.evaluate(()=>document.querySelector('#cart-drawer')?.innerText.replace(/\s+/g,' ').trim()));
+await page.keyboard.press('Escape'); await page.goto(BASE+'shop/',{waitUntil:'networkidle'}); console.log('cart on shop after order:', (await page.locator('#cart-open').innerText()).replace(/\s+/g,' '));
+const imgs=await page.evaluate(()=>Array.from(document.images).filter(i=>!(i.complete&&i.naturalWidth>0)).map(i=>i.outerHTML.slice(0,200)));
+console.log('taps',taps,'console',JSON.stringify(errs),'broken imgs shop',JSON.stringify(imgs));
+await browser.close();

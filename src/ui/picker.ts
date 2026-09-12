@@ -159,8 +159,14 @@ export function mountPicker(root: HTMLElement): void {
   }
   function setProduct(id: string): void {
     if (state.mode === 'single') state.single.product = id;
-    else if (state.mode === 'flight') { const s = state.flight.slots[state.flight.activeSlot]; if (s) s.product = id; else state.single.product = id; }
-    else { if (state.sample.active !== null && state.sample.minis[state.sample.active]) state.sample.minis[state.sample.active].product = id; else state.sample.product = id; }
+    else if (state.mode === 'flight') {
+      const i = state.flight.activeSlot; const s = state.flight.slots[i];
+      if (s) { s.product = id; const next = state.flight.slots.findIndex((x, j) => j !== i && x === null); if (next >= 0) state.flight.activeSlot = next; }
+      else state.single.product = id;
+    } else {
+      if (state.sample.active !== null && state.sample.minis[state.sample.active]) { state.sample.minis[state.sample.active].product = id; state.sample.active = null; }
+      else state.sample.product = id;
+    }
     update();
   }
   function addToCart(): void {
@@ -325,7 +331,7 @@ export function mountPicker(root: HTMLElement): void {
     const m = f ? mood(f.mood) : undefined;
     if (worldShown !== id) {
       worldShown = id;
-      const media = f ? worldMedia({ still: f.hero ? asset(f.hero) : undefined, video: f.heroVideo ? asset(f.heroVideo) : undefined, alt: `${f.name}: ${f.note}` }) : '';
+      const media = f ? worldMedia({ still: f.hero ? asset(f.hero) : undefined, stillM: f.heroM ? asset(f.heroM) : undefined, video: f.heroVideo ? asset(f.heroVideo) : undefined, alt: `${f.name}: ${f.note}` }) : '';
       worldMediaEl.hidden = !media; worldMediaEl.innerHTML = media;
       watchWorldVideos(worldMediaEl);
     }

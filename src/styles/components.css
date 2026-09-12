@@ -27,7 +27,7 @@
 
 /* ---------- Mood filter: an inline text list ---------- */
 .chips { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 0; font-size: .95rem; }
-@media (max-width: 719px) { .chips { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin-inline: calc(-1 * var(--gutter)); padding-inline: var(--gutter); } .chips::-webkit-scrollbar { display: none; } .chip { white-space: nowrap; } }
+@media (max-width: 719px) { .chips { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; margin-inline: calc(-1 * var(--gutter)); padding-inline: var(--gutter) 56px; -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 48px), transparent); mask-image: linear-gradient(to right, #000 calc(100% - 48px), transparent); } .chips::-webkit-scrollbar { display: none; } .chip { white-space: nowrap; } }
 .chip { min-height: 40px; color: var(--ink-soft); padding: 0 2px; }
 .chip + .chip::before { content: '·'; color: var(--ink-mute); margin: 0 10px; font-weight: 400; }
 .chip .dot { display: none; }
@@ -60,7 +60,7 @@
 .other-field input:focus { outline: 3px solid var(--green); outline-offset: 2px; }
 
 /* ---------- Picker layout ---------- */
-.picker { display: grid; gap: 22px; padding-top: 18px; }
+.picker { display: grid; gap: 22px; padding-top: 18px; padding-bottom: calc(var(--bar-h) + 24px); }
 .shop-main { display: grid; gap: 24px; }
 .products { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
 .ptile { display: grid; gap: 6px; justify-items: center; text-align: center; }
@@ -119,7 +119,8 @@
 .builder { display: grid; gap: 14px; }
 .builder-top { display: flex; justify-content: space-between; align-items: baseline; gap: 10px 24px; flex-wrap: wrap; }
 .progress { font-family: var(--font-display); font-weight: 600; font-size: 1.35rem; color: var(--green-ink); }
-.slots { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+.slots { display: grid; gap: 10px; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); }
+@media (max-width: 440px) { .slots { grid-template-columns: 1fr; } }
 .slot { position: relative; display: flex; align-items: center; min-height: 62px; padding: 8px 32px 8px 12px; border-radius: 8px; background: var(--paper); text-align: left; width: 100%; }
 .slot .slot-body { display: grid; gap: 2px; min-width: 0; }
 .slot .slot-name { font-family: var(--font-display); font-weight: 600; font-size: 1.05rem; line-height: 1.1; color: var(--green-ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -135,7 +136,7 @@
 .totals .row.total { color: var(--green-ink); font-family: var(--font-display); font-weight: 600; font-size: 1.5rem; margin-top: 8px; }
 
 /* ---------- Sticky bottom bar: the one filled control ---------- */
-.bar { position: fixed; left: 0; right: 0; bottom: var(--vv-offset, 0px); z-index: 50; background: rgb(246 241 231 / .92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: var(--shadow-bar); padding: 12px var(--gutter) calc(12px + env(safe-area-inset-bottom)); }
+.bar { position: fixed; left: 0; right: 0; bottom: var(--vv-offset, 0px); z-index: 50; background: rgb(246 241 231 / .97); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: var(--shadow-bar); padding: 12px var(--gutter) calc(12px + env(safe-area-inset-bottom)); }
 .bar .wrap { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
 .bar .summary { display: grid; min-width: 0; }
 .bar .summary .line1 { font-family: var(--font-display); font-weight: 600; font-size: 1.1rem; line-height: 1.15; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--green-ink); }
@@ -256,7 +257,7 @@ pre.order-text { white-space: pre-wrap; font-family: ui-monospace, SFMono-Regula
 /* =====================================================================
    PASSAGE — pinned stage: the jar stays, the world changes
    ===================================================================== */
-.passage { position: relative; height: calc((var(--n) + 1) * 100svh); margin-top: 8px; }
+.passage { position: relative; height: calc(var(--n) * 70svh + 100svh); margin-top: 8px; }
 .stage { position: sticky; top: 0; height: 100svh; overflow: hidden; display: grid; grid-template-rows: 1fr auto; background: color-mix(in srgb, var(--tint, transparent) 10%, var(--cream)); transition: background .5s; }
 .stage .pworld { position: absolute; inset: 0; opacity: 0; transition: opacity .55s var(--ease-out); }
 .stage .pworld.is-live { opacity: 1; }

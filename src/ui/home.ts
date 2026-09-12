@@ -15,6 +15,7 @@ export function renderHome(root: HTMLElement): void {
   const worlds = catalog.fragrances.filter((f) => f.hero && f.heroVideo);
   const peak = worlds[worlds.length - 1];
   const jar = asset(photos['body-butter']);
+  const jarSmall = asset('products/jar-body-butter-640.webp');
 
   root.innerHTML = `
     <section class="hero" aria-labelledby="hero-title">
@@ -29,22 +30,18 @@ export function renderHome(root: HTMLElement): void {
             <a class="text-btn" href="${page('shop/?mode=flight&option=A')}">Build a flight</a>
           </div>
         </div>
-        <div class="hero-jar"><img src="${jar}" alt="An open jar of Valeo whipped body butter, wooden lid resting against it" width="900" height="856" fetchpriority="high"></div>
+        <div class="hero-jar"><img src="${jarSmall}" alt="An open jar of Valeo whipped body butter, wooden lid resting against it" width="640" height="608" fetchpriority="high"></div>
       </div>
     </section>
 
     <section class="passage" id="worlds" style="--n:${worlds.length}" aria-label="Scent worlds">
       <div class="stage">
-        ${worlds.map((f, i) => `<div class="pworld${i === 0 ? ' is-live' : ''}" data-name="${escapeHtml(f.name)}" data-tint="${f.tint}" data-note-html="${escapeHtml(`${escapeHtml(f.note)} <span class=&quot;mood&quot;>· ${escapeHtml(mood(f.mood)?.label ?? '')}</span>`)}" aria-hidden="true"><img src="${asset(f.hero!)}" alt="" width="1400" height="933" ${i === 0 ? 'fetchpriority="high"' : 'loading="lazy"'}>${f.heroVideo ? `<video muted playsinline preload="none" data-src="${asset(f.heroVideo)}"></video>` : ''}</div>`).join('')}
-        <div class="stage-jar" aria-hidden="true"><img src="${jar}" alt="" width="900" height="856"></div>
+        ${worlds.map((f, i) => `<div class="pworld${i === 0 ? ' is-live' : ''}" data-name="${escapeHtml(f.name)}" data-tint="${f.tint}" data-note-html="${escapeHtml(`${escapeHtml(f.note)} <span class=&quot;mood&quot;>· ${escapeHtml(mood(f.mood)?.label ?? '')}</span>`)}" aria-hidden="true"><img src="${asset(f.hero!)}" srcset="${asset(f.heroM ?? f.hero!)} 720w, ${asset(f.hero!)} 1200w" sizes="100vw" alt="" width="1200" height="800" ${i === 0 ? 'fetchpriority="high"' : 'loading="lazy"'}>${f.heroVideo ? `<video muted playsinline preload="none" data-src="${asset(f.heroVideo)}"></video>` : ''}</div>`).join('')}
+        <div class="stage-jar" aria-hidden="true"><img src="${jarSmall}" alt="" width="640" height="608"></div>
         <p class="stage-hint">Scroll · the jar stays, the world changes</p>
         <div class="stage-text"><div class="stop-name" data-passage-name>${escapeHtml(worlds[0]?.name ?? '')}</div><p class="stop-note" data-passage-note></p><div class="stage-rail" data-passage-rail aria-hidden="true">${worlds.map(() => '<span></span>').join('')}</div></div>
       </div>
     </section>
-    <section class="section" aria-labelledby="close-title" style="padding-top:clamp(40px,7vh,80px)">
-      <div class="wrap worlds-close"><h2 id="close-title">The jar stays the same. The world around it is yours to pick.</h2><a class="text-btn" href="${page('shop/')}">See all ${catalog.fragrances.length} scents</a></div>
-    </section>
-
     <section class="section" aria-labelledby="ways-title" id="ways">
       <div class="wrap">
         <div class="section-head"><h2 id="ways-title">Three ways to order</h2><p class="lede">Same scents, same jars. Pick the shape that fits the moment.</p></div>

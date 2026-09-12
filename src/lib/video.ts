@@ -27,11 +27,11 @@ export function watchWorldVideos(root: ParentNode = document): void {
 }
 
 /** Markup for a world: video with poster when a loop exists, a still otherwise, nothing when neither. */
-export function worldMedia(opts: { still?: string; video?: string; alt: string; cls?: string; eager?: boolean }): string {
+export function worldMedia(opts: { still?: string; stillM?: string; video?: string; alt: string; cls?: string; eager?: boolean }): string {
   const cls = opts.cls ?? '';
   if (opts.video && opts.still) {
     return `<video class="scent-world ${cls}" poster="${opts.still}" data-src="${opts.video}" muted playsinline loop preload="none" aria-hidden="true"></video>`;
   }
-  if (opts.still) return `<img class="${cls}" src="${opts.still}" alt="${opts.alt}" ${opts.eager ? 'fetchpriority="high"' : 'loading="lazy"'} width="1400" height="933">`;
+  if (opts.still) return `<img class="${cls}" src="${opts.still}" ${opts.stillM ? `srcset="${opts.stillM} 720w, ${opts.still} 1200w" sizes="(min-width: 900px) 360px, 100vw"` : ''} alt="${opts.alt}" ${opts.eager ? 'fetchpriority="high"' : 'loading="lazy"'} width="1200" height="800">`;
   return '';
 }

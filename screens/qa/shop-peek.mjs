@@ -1,0 +1,11 @@
+import { chromium } from '@playwright/test';
+const BASE='http://localhost:4173/valeo-site/';
+const dir='/Users/newmac/Work/SHAUNA/site-v1/screens/qa';
+const browser=await chromium.launch({args:['--autoplay-policy=no-user-gesture-required']});
+const page=await browser.newPage({viewport:{width:390,height:844},deviceScaleFactor:1});
+await page.goto(BASE+'shop/',{waitUntil:'networkidle'}); await page.evaluate(()=>localStorage.clear()); await page.reload({waitUntil:'networkidle'}); await page.waitForTimeout(500);
+await page.screenshot({path:`${dir}/m-shop-land.png`});
+await page.screenshot({path:`${dir}/m-shop-land-full.png`, fullPage:true});
+const els=await page.evaluate(()=>Array.from(document.querySelectorAll('button,a,[role=button],input,select,label')).map(e=>{const r=e.getBoundingClientRect();return `${e.tagName}${e.id?'#'+e.id:''}${e.className?'.'+String(e.className).replace(/\s+/g,'.'):''} "${(e.innerText||e.value||e.getAttribute('aria-label')||'').replace(/\s+/g,' ').trim().slice(0,50)}" @${Math.round(r.left)},${Math.round(r.top+scrollY)} ${Math.round(r.width)}x${Math.round(r.height)}`;}));
+console.log(els.join('\n'));
+await browser.close();

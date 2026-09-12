@@ -7,7 +7,7 @@ const original = readFileSync(path, 'utf8');
 const NAME = 'Test Nineteenth Scent';
 try {
   const c = JSON.parse(original);
-  c.fragrances.push({ id: 'test-nineteenth', name: NAME, mood: 'fruity', tint: '#E0F0FF', swatch: 'swatches/other.svg', note: 'a test scent' });
+  c.fragrances.push({ id: 'test-nineteenth', name: NAME, mood: 'fruity', tint: '#E0F0FF', note: 'a test scent' });
   writeFileSync(path, JSON.stringify(c, null, 2));
   execSync('node scripts/check-prices.mjs', { stdio: 'inherit' });
   execSync('npx vite build --outDir dist-r7', { stdio: 'inherit' });

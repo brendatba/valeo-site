@@ -162,191 +162,190 @@
       "name": "Pistachio Salted Caramel",
       "mood": "sweet",
       "tint": "#EEF0D3",
-      "swatch": "swatches/pistachio-salted-caramel.svg",
       "note": "roasted pistachio, buttery caramel, a pinch of salt",
       "hero": "products/world-pistachio.jpg",
       "heroVideo": "video/w-pistachio.mp4",
-      "thumb": "products/t-pistachio-salted-caramel.jpg"
+      "thumb": "products/t-pistachio-salted-caramel.jpg",
+      "heroM": "products/world-pistachio-m.jpg"
     },
     {
       "id": "cashmere-vanilla",
       "name": "Cashmere Vanilla",
       "mood": "warm",
       "tint": "#F3E9DA",
-      "swatch": "swatches/cashmere-vanilla.svg",
       "note": "soft vanilla, warm musk, clean cotton",
       "hero": "products/world-vanilla.jpg",
       "heroVideo": "video/w-vanilla.mp4",
-      "thumb": "products/t-cashmere-vanilla.jpg"
+      "thumb": "products/t-cashmere-vanilla.jpg",
+      "heroM": "products/world-vanilla-m.jpg"
     },
     {
       "id": "raspberry-lemonade",
       "name": "Raspberry Lemonade",
       "mood": "fruity",
       "tint": "#F9DCE3",
-      "swatch": "swatches/raspberry-lemonade.svg",
       "note": "tart raspberry, bright lemon, a little sugar",
       "hero": "products/world-raspberry-lemonade.jpg",
-      "thumb": "products/t-raspberry-lemonade.jpg"
+      "thumb": "products/t-raspberry-lemonade.jpg",
+      "heroM": "products/world-raspberry-lemonade-m.jpg"
     },
     {
       "id": "coconut-lime",
       "name": "Coconut Lime",
       "mood": "fruity",
       "tint": "#E4F1E2",
-      "swatch": "swatches/coconut-lime.svg",
       "note": "creamy coconut, fresh lime zest",
       "hero": "products/world-coconut-lime.jpg",
-      "thumb": "products/t-coconut-lime.jpg"
+      "thumb": "products/t-coconut-lime.jpg",
+      "heroM": "products/world-coconut-lime-m.jpg"
     },
     {
       "id": "vanilla-amber",
       "name": "Vanilla Amber",
       "mood": "warm",
       "tint": "#F2E2C8",
-      "swatch": "swatches/vanilla-amber.svg",
       "note": "golden amber, vanilla bean, a touch of resin",
       "hero": "products/world-vanilla-amber.jpg",
-      "thumb": "products/t-vanilla-amber.jpg"
+      "thumb": "products/t-vanilla-amber.jpg",
+      "heroM": "products/world-vanilla-amber-m.jpg"
     },
     {
       "id": "chamomile-lavender",
       "name": "Chamomile Lavender",
       "mood": "calm",
       "tint": "#E9E2F2",
-      "swatch": "swatches/chamomile-lavender.svg",
       "note": "calming chamomile, soft lavender",
       "hero": "products/world-chamomile.jpg",
       "heroVideo": "video/w-chamomile.mp4",
-      "thumb": "products/t-chamomile-lavender.jpg"
+      "thumb": "products/t-chamomile-lavender.jpg",
+      "heroM": "products/world-chamomile-m.jpg"
     },
     {
       "id": "birthday-cake",
       "name": "Birthday Cake",
       "mood": "sweet",
       "tint": "#FBE6EE",
-      "swatch": "swatches/birthday-cake.svg",
       "note": "vanilla sponge, buttercream, sprinkles",
       "hero": "products/world-birthday-cake.jpg",
-      "thumb": "products/t-birthday-cake.jpg"
+      "thumb": "products/t-birthday-cake.jpg",
+      "heroM": "products/world-birthday-cake-m.jpg"
     },
     {
       "id": "watermelon",
       "name": "Watermelon",
       "mood": "fruity",
       "tint": "#FBDDD8",
-      "swatch": "swatches/watermelon.svg",
       "note": "juicy watermelon, cool and sweet",
       "hero": "products/world-watermelon.jpg",
-      "thumb": "products/t-watermelon.jpg"
+      "thumb": "products/t-watermelon.jpg",
+      "heroM": "products/world-watermelon-m.jpg"
     },
     {
       "id": "cinnamon-roll",
       "name": "Cinnamon Roll",
       "mood": "sweet",
       "tint": "#F1DDC6",
-      "swatch": "swatches/cinnamon-roll.svg",
       "note": "warm cinnamon, brown sugar, cream cheese icing",
       "hero": "products/world-cinnamon-roll.jpg",
-      "thumb": "products/t-cinnamon-roll.jpg"
+      "thumb": "products/t-cinnamon-roll.jpg",
+      "heroM": "products/world-cinnamon-roll-m.jpg"
     },
     {
       "id": "bubble-gum-cotton-candy",
       "name": "Bubble Gum Cotton Candy",
       "mood": "sweet",
       "tint": "#F7DDEF",
-      "swatch": "swatches/bubble-gum-cotton-candy.svg",
       "note": "pink sugar, spun candy, pure fun",
       "hero": "products/world-bubble-gum-cotton-candy.jpg",
-      "thumb": "products/t-bubble-gum-cotton-candy.jpg"
+      "thumb": "products/t-bubble-gum-cotton-candy.jpg",
+      "heroM": "products/world-bubble-gum-cotton-candy-m.jpg"
     },
     {
       "id": "coffee",
       "name": "Coffee",
       "mood": "warm",
       "tint": "#E9DBCB",
-      "swatch": "swatches/coffee.svg",
       "note": "fresh-ground beans, a splash of cream",
       "hero": "products/world-coffee.jpg",
-      "thumb": "products/t-coffee.jpg"
+      "thumb": "products/t-coffee.jpg",
+      "heroM": "products/world-coffee-m.jpg"
     },
     {
       "id": "vanilla-bean-lavender",
       "name": "Vanilla Bean Lavender",
       "mood": "calm",
       "tint": "#EDE4F0",
-      "swatch": "swatches/vanilla-bean-lavender.svg",
       "note": "vanilla bean, gentle lavender",
       "hero": "products/world-vanilla-bean-lavender.jpg",
-      "thumb": "products/t-vanilla-bean-lavender.jpg"
+      "thumb": "products/t-vanilla-bean-lavender.jpg",
+      "heroM": "products/world-vanilla-bean-lavender-m.jpg"
     },
     {
       "id": "sandalwood-bergamot",
       "name": "Sandalwood Bergamot",
       "mood": "warm",
       "tint": "#EBE3D2",
-      "swatch": "swatches/sandalwood-bergamot.svg",
       "note": "creamy sandalwood, bright bergamot",
       "hero": "products/world-sandalwood-bergamot.jpg",
-      "thumb": "products/t-sandalwood-bergamot.jpg"
+      "thumb": "products/t-sandalwood-bergamot.jpg",
+      "heroM": "products/world-sandalwood-bergamot-m.jpg"
     },
     {
       "id": "ocean-mist-sea-salt",
       "name": "Ocean Mist & Sea Salt",
       "mood": "fruity",
       "tint": "#DCEDF0",
-      "swatch": "swatches/ocean-mist-sea-salt.svg",
       "note": "sea air, clean salt, a little driftwood",
       "hero": "products/world-ocean-mist-sea-salt.jpg",
-      "thumb": "products/t-ocean-mist-sea-salt.jpg"
+      "thumb": "products/t-ocean-mist-sea-salt.jpg",
+      "heroM": "products/world-ocean-mist-sea-salt-m.jpg"
     },
     {
       "id": "brazilian-orange-bourbon",
       "name": "Brazilian Orange Bourbon",
       "mood": "warm",
       "tint": "#F8E1C4",
-      "swatch": "swatches/brazilian-orange-bourbon.svg",
       "note": "sweet orange, oak, warm bourbon",
       "hero": "products/world-brazilian-orange-bourbon.jpg",
-      "thumb": "products/t-brazilian-orange-bourbon.jpg"
+      "thumb": "products/t-brazilian-orange-bourbon.jpg",
+      "heroM": "products/world-brazilian-orange-bourbon-m.jpg"
     },
     {
       "id": "honey-vanilla",
       "name": "Honey Vanilla",
       "mood": "sweet",
       "tint": "#F7E8C6",
-      "swatch": "swatches/honey-vanilla.svg",
       "note": "raw honey, soft vanilla",
       "hero": "products/world-honey-vanilla.jpg",
-      "thumb": "products/t-honey-vanilla.jpg"
+      "thumb": "products/t-honey-vanilla.jpg",
+      "heroM": "products/world-honey-vanilla-m.jpg"
     },
     {
       "id": "marshmallow-vanilla-kisses",
       "name": "Marshmallow Vanilla Kisses",
       "mood": "sweet",
       "tint": "#F6ECEC",
-      "swatch": "swatches/marshmallow-vanilla-kisses.svg",
       "note": "toasted marshmallow, vanilla sugar",
       "hero": "products/world-marshmallow-vanilla-kisses.jpg",
-      "thumb": "products/t-marshmallow-vanilla-kisses.jpg"
+      "thumb": "products/t-marshmallow-vanilla-kisses.jpg",
+      "heroM": "products/world-marshmallow-vanilla-kisses-m.jpg"
     },
     {
       "id": "pumpkin-marshmallow",
       "name": "Pumpkin Marshmallow",
       "mood": "seasonal",
       "tint": "#F6DFC8",
-      "swatch": "swatches/pumpkin-marshmallow.svg",
       "note": "pumpkin spice, toasted marshmallow",
       "tag": "Fall",
       "hero": "products/world-pumpkin.jpg",
       "heroVideo": "video/w-pumpkin.mp4",
-      "thumb": "products/t-pumpkin-marshmallow.jpg"
+      "thumb": "products/t-pumpkin-marshmallow.jpg",
+      "heroM": "products/world-pumpkin-m.jpg"
     }
   ],
   "other": {
     "id": "other",
     "name": "Other",
-    "swatch": "swatches/other.svg",
     "tint": "#F0EDE6",
     "prompt": "Tell us the scent you're after"
   },

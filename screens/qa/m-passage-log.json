@@ -1,0 +1,686 @@
+[
+ {
+  "sy": 300,
+  "cap": null,
+  "info": [
+   {
+    "i": 0,
+    "t": 0,
+    "op": "1",
+    "vis": "visible",
+    "top": 41,
+    "hash": "ce5c9786"
+   },
+   {
+    "i": 1,
+    "t": 0,
+    "op": "0",
+    "vis": "visible",
+    "top": 41,
+    "hash": "bef08cb6"
+   },
+   {
+    "i": 2,
+    "t": 0,
+    "op": "0",
+    "vis": "visible",
+    "top": 41,
+    "hash": "593726d5"
+   },
+   {
+    "i": 3,
+    "t": 0,
+    "op": "0",
+    "vis": "visible",
+    "top": 41,
+    "hash": "51a70a8b"
+   }
+  ]
+ },
+ {
+  "sy": 600,
+  "cap": null,
+  "info": [
+   {
+    "i": 0,
+    "t": 1.54,
+    "op": "1",
+    "vis": "visible",
+    "top": 0,
+    "hash": "139059df"
+   },
+   {
+    "i": 1,
+    "t": 0,
+    "op": "0",
+    "vis": "visible",
+    "top": 0,
+    "hash": "bef08cb6"
+   },
+   {
+    "i": 2,
+    "t": 0,
+    "op": "0",
+    "vis": "visible",
+    "top": 0,
+    "hash": "593726d5"
+   },
+   {
+    "i": 3,
+    "t": 0,
+    "op": "0",
+    "vis": "visible",
+    "top": 0,
+    "hash": "51a70a8b"
+   }
+  ]
+ },
+ {
+  "sy": 900,
+  "cap": null,
+  "info": [
+   {
+    "i": 0,
+    "t": 3.34,
+    "op": "1",
+    "vis": "visible",
+    "top": 0,
+    "hash": "f6f427da"
+   },
+   {
+    "i": 1,
+    "t": 0,
+    "op": "0",
+    "vis": "visible",
+    "top": 0,
+    "hash": "bef08cb6"
+   },
+   {
+    "i": 2,
+    "t": 0,
+    "op": "0",
+    "vis": "visible",
+    "top": 0,
+    "hash": "593726d5"
+   },
+   {
+    "i": 3,
+    "t": 0,
+    "op": "0",
+    "vis": "visible",
+    "top": 0,
+    "hash": "51a70a8b"
+   }
+  ]
+ },
+ {
+  "sy": 1200,
+  "cap": null,
+  "info": [
+   {
+    "i": 0,
+    "t": 3.34,
+    "op": "0.424202",
+    "vis": "visible",
+    "top": 0,
+    "hash": "f6f427da"
+   },
+   {
+    "i": 1,
+    "t": 0.09,
+    "op": "0.575798",
+    "vis": "visible",
+    "top": 0,
+    "hash": "40cbcbd6"
+   },
+   {
+    "i": 2,
+    "t": 0,
+    "op": "0",
+    "vis": "visible",
+    "top": 0,
+    "hash": "593726d5"
+   },
+   {
+    "i": 3,
+    "t": 0,
+    "op": "0",
+    "vis": "visible",
+    "top": 0,
+    "hash": "51a70a8b"
+   }
+  ]
+ },
+ {
+  "sy": 1500,
+  "cap": null,
+  "info": [
+   {
+    "i": 0,
+    "t": 3.34,
+    "op": "0.00391426",
+    "vis": "visible",
+    "top": 0,
+    "hash": "f6f427da"
+   },
+   {
+    "i": 1,
+    "t": 1.88,
+    "op": "0.996086",
+    "vis": "visible",
+    "top": 0,
+    "hash": "8ddeb6c"
+   },
+   {
+    "i": 2,
+    "t": 0,
+    "op": "0",
+    "vis": "visible",
+    "top": 0,
+    "hash": "593726d5"
+   },
+   {
+    "i": 3,
+    "t": 0,
+    "op": "0",
+    "vis": "visible",
+    "top": 0,
+    "hash": "51a70a8b"
+   }
+  ]
+ },
+ {
+  "sy": 1800,
+  "cap": null,
+  "info": [
+   {
+    "i": 0,
+    "t": 3.34,
+    "op": "0",
+    "vis": "visible",
+    "top": 0,
+    "hash": "f6f427da"
+   },
+   {
+    "i": 1,
+    "t": 3.67,
+    "op": "1",
+    "vis": "visible",
+    "top": 0,
+    "hash": "b420a36f"
+   },
+   {
+    "i": 2,
+    "t": 0,
+    "op": "0",
+    "vis": "visible",
+    "top": 0,
+    "hash": "593726d5"
+   },
+   {
+    "i": 3,
+    "t": 0,
+    "op": "0",
+    "vis": "visible",
+    "top": 0,
+    "hash": "51a70a8b"
+   }
+  ]
+ },
+ {
+  "sy": 2100,
+  "cap": null,
+  "info": [
+   {
+    "i": 0,
+    "t": 3.34,
+    "op": "0",
+    "vis": "visible",
+    "top": 0,
+    "hash": "f6f427da"
+   },
+   {
+    "i": 1,
+    "t": 3.67,
+    "op": "0.424228",
+    "vis": "visible",
+    "top": 0,
+    "hash": "b420a36f"
+   },
+   {
+    "i": 2,
+    "t": 0.42,
+    "op": "0.575772",
+    "vis": "visible",
+    "top": 0,
+    "hash": "12c42803"
+   },
+   {
+    "i": 3,
+    "t": 0,
+    "op": "0",
+    "vis": "visible",
+    "top": 0,
+    "hash": "51a70a8b"
+   }
+  ]
+ },
+ {
+  "sy": 2400,
+  "cap": null,
+  "info": [
+   {
+    "i": 0,
+    "t": 3.34,
+    "op": "0",
+    "vis": "visible",
+    "top": 0,
+    "hash": "f6f427da"
+   },
+   {
+    "i": 1,
+    "t": 3.67,
+    "op": "0.00095204",
+    "vis": "visible",
+    "top": 0,
+    "hash": "b420a36f"
+   },
+   {
+    "i": 2,
+    "t": 2.21,
+    "op": "0.999048",
+    "vis": "visible",
+    "top": 0,
+    "hash": "75bf5c58"
+   },
+   {
+    "i": 3,
+    "t": 0,
+    "op": "0",
+    "vis": "visible",
+    "top": 0,
+    "hash": "51a70a8b"
+   }
+  ]
+ },
+ {
+  "sy": 2700,
+  "cap": null,
+  "info": [
+   {
+    "i": 0,
+    "t": 3.34,
+    "op": "0",
+    "vis": "visible",
+    "top": 0,
+    "hash": "f6f427da"
+   },
+   {
+    "i": 1,
+    "t": 3.67,
+    "op": "0",
+    "vis": "visible",
+    "top": 0,
+    "hash": "b420a36f"
+   },
+   {
+    "i": 2,
+    "t": 4.01,
+    "op": "1",
+    "vis": "visible",
+    "top": 0,
+    "hash": "70177fc9"
+   },
+   {
+    "i": 3,
+    "t": 0,
+    "op": "0",
+    "vis": "visible",
+    "top": 0,
+    "hash": "51a70a8b"
+   }
+  ]
+ },
+ {
+  "sy": 3000,
+  "cap": null,
+  "info": [
+   {
+    "i": 0,
+    "t": 3.34,
+    "op": "0",
+    "vis": "visible",
+    "top": 0,
+    "hash": "f6f427da"
+   },
+   {
+    "i": 1,
+    "t": 3.67,
+    "op": "0",
+    "vis": "visible",
+    "top": 0,
+    "hash": "b420a36f"
+   },
+   {
+    "i": 2,
+    "t": 4.01,
+    "op": "0.424398",
+    "vis": "visible",
+    "top": 0,
+    "hash": "70177fc9"
+   },
+   {
+    "i": 3,
+    "t": 0.76,
+    "op": "0.575602",
+    "vis": "visible",
+    "top": 0,
+    "hash": "7a815bcd"
+   }
+  ]
+ },
+ {
+  "sy": 3300,
+  "cap": null,
+  "info": [
+   {
+    "i": 0,
+    "t": 3.34,
+    "op": "0",
+    "vis": "visible",
+    "top": 0,
+    "hash": "f6f427da"
+   },
+   {
+    "i": 1,
+    "t": 3.67,
+    "op": "0",
+    "vis": "visible",
+    "top": 0,
+    "hash": "b420a36f"
+   },
+   {
+    "i": 2,
+    "t": 4.01,
+    "op": "0.000956439",
+    "vis": "visible",
+    "top": 0,
+    "hash": "70177fc9"
+   },
+   {
+    "i": 3,
+    "t": 2.55,
+    "op": "0.999044",
+    "vis": "visible",
+    "top": 0,
+    "hash": "b7969e5b"
+   }
+  ]
+ },
+ {
+  "sy": 3600,
+  "cap": null,
+  "info": [
+   {
+    "i": 0,
+    "t": 3.34,
+    "op": "0",
+    "vis": "visible",
+    "top": 0,
+    "hash": "f6f427da"
+   },
+   {
+    "i": 1,
+    "t": 3.67,
+    "op": "0",
+    "vis": "visible",
+    "top": 0,
+    "hash": "b420a36f"
+   },
+   {
+    "i": 2,
+    "t": 4.01,
+    "op": "0",
+    "vis": "visible",
+    "top": 0,
+    "hash": "70177fc9"
+   },
+   {
+    "i": 3,
+    "t": 4.34,
+    "op": "1",
+    "vis": "visible",
+    "top": 0,
+    "hash": "88f2dea9"
+   }
+  ]
+ },
+ {
+  "sy": 3900,
+  "cap": null,
+  "info": [
+   {
+    "i": 0,
+    "t": 3.34,
+    "op": "0",
+    "vis": "visible",
+    "top": -183,
+    "hash": "f6f427da"
+   },
+   {
+    "i": 1,
+    "t": 3.67,
+    "op": "0",
+    "vis": "visible",
+    "top": -183,
+    "hash": "b420a36f"
+   },
+   {
+    "i": 2,
+    "t": 4.01,
+    "op": "0",
+    "vis": "visible",
+    "top": -183,
+    "hash": "70177fc9"
+   },
+   {
+    "i": 3,
+    "t": 4.99,
+    "op": "1",
+    "vis": "visible",
+    "top": -183,
+    "hash": "9f3c857"
+   }
+  ]
+ },
+ {
+  "sy": 4200,
+  "cap": null,
+  "info": [
+   {
+    "i": 0,
+    "t": 3.34,
+    "op": "0",
+    "vis": "visible",
+    "top": -483,
+    "hash": "f6f427da"
+   },
+   {
+    "i": 1,
+    "t": 3.67,
+    "op": "0",
+    "vis": "visible",
+    "top": -483,
+    "hash": "b420a36f"
+   },
+   {
+    "i": 2,
+    "t": 4.01,
+    "op": "0",
+    "vis": "visible",
+    "top": -483,
+    "hash": "70177fc9"
+   },
+   {
+    "i": 3,
+    "t": 4.99,
+    "op": "1",
+    "vis": "visible",
+    "top": -483,
+    "hash": "9f3c857"
+   }
+  ]
+ },
+ {
+  "sy": 4500,
+  "cap": null,
+  "info": [
+   {
+    "i": 0,
+    "t": 3.34,
+    "op": "0",
+    "vis": "visible",
+    "top": -783,
+    "hash": "f6f427da"
+   },
+   {
+    "i": 1,
+    "t": 3.67,
+    "op": "0",
+    "vis": "visible",
+    "top": -783,
+    "hash": "b420a36f"
+   },
+   {
+    "i": 2,
+    "t": 4.01,
+    "op": "0",
+    "vis": "visible",
+    "top": -783,
+    "hash": "70177fc9"
+   },
+   {
+    "i": 3,
+    "t": 4.99,
+    "op": "1",
+    "vis": "visible",
+    "top": -783,
+    "hash": "9f3c857"
+   }
+  ]
+ },
+ {
+  "sy": 4800,
+  "cap": null,
+  "info": [
+   {
+    "i": 0,
+    "t": 3.34,
+    "op": "0",
+    "vis": "visible",
+    "top": -1083,
+    "hash": "f6f427da"
+   },
+   {
+    "i": 1,
+    "t": 3.67,
+    "op": "0",
+    "vis": "visible",
+    "top": -1083,
+    "hash": "b420a36f"
+   },
+   {
+    "i": 2,
+    "t": 4.01,
+    "op": "0",
+    "vis": "visible",
+    "top": -1083,
+    "hash": "70177fc9"
+   },
+   {
+    "i": 3,
+    "t": 4.99,
+    "op": "1",
+    "vis": "visible",
+    "top": -1083,
+    "hash": "9f3c857"
+   }
+  ]
+ },
+ {
+  "sy": 5100,
+  "cap": null,
+  "info": [
+   {
+    "i": 0,
+    "t": 3.34,
+    "op": "0",
+    "vis": "visible",
+    "top": -1383,
+    "hash": "f6f427da"
+   },
+   {
+    "i": 1,
+    "t": 3.67,
+    "op": "0",
+    "vis": "visible",
+    "top": -1383,
+    "hash": "b420a36f"
+   },
+   {
+    "i": 2,
+    "t": 4.01,
+    "op": "0",
+    "vis": "visible",
+    "top": -1383,
+    "hash": "70177fc9"
+   },
+   {
+    "i": 3,
+    "t": 4.99,
+    "op": "1",
+    "vis": "visible",
+    "top": -1383,
+    "hash": "9f3c857"
+   }
+  ]
+ },
+ {
+  "sy": 5400,
+  "cap": null,
+  "info": [
+   {
+    "i": 0,
+    "t": 3.34,
+    "op": "0",
+    "vis": "visible",
+    "top": -1683,
+    "hash": "f6f427da"
+   },
+   {
+    "i": 1,
+    "t": 3.67,
+    "op": "0",
+    "vis": "visible",
+    "top": -1683,
+    "hash": "b420a36f"
+   },
+   {
+    "i": 2,
+    "t": 4.01,
+    "op": "0",
+    "vis": "visible",
+    "top": -1683,
+    "hash": "70177fc9"
+   },
+   {
+    "i": 3,
+    "t": 4.99,
+    "op": "1",
+    "vis": "visible",
+    "top": -1683,
+    "hash": "9f3c857"
+   }
+  ]
+ }
+]
