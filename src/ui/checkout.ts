@@ -86,7 +86,7 @@ function renderConfirmation(root: HTMLElement, o: Order, sent: { ok: boolean; re
   const handle = catalog.business.venmo ? `@${catalog.business.venmo.replace(/^@/, '')}` : '';
   root.innerHTML = `
     <div class="confirm" style="grid-column:1/-1;max-width:720px">
-      <div><span class="eyebrow">Order placed</span><h1 style="margin-top:6px">Thank you, ${escapeHtml(o.customer.name.split(' ')[0])}.</h1>
+      <div><h1>Thank you, ${escapeHtml(o.customer.name.split(' ')[0])}.</h1>
         <p class="muted" style="margin-top:8px">Your order number is below. Shauna will text ${escapeHtml(o.customer.phone)} to confirm ${o.customer.fulfillment === 'pickup' ? 'pickup' : 'delivery'}.</p></div>
       <div class="ordno" id="order-number" aria-label="Order number">${o.number}</div>
 
