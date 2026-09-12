@@ -1,0 +1,41 @@
+import { chromium } from '@playwright/test';
+const BASE='http://localhost:4173/valeo-site/';
+const dir='/Users/newmac/Work/SHAUNA/site-v1/screens/qa';
+const browser=await chromium.launch({args:['--autoplay-policy=no-user-gesture-required']});
+const [w,h,tag]=[390,844,'m'];
+const page=await browser.newPage({viewport:{width:w,height:h},deviceScaleFactor:1});
+const errs=[]; page.on('console',m=>{ if(['error','warning'].includes(m.type())) errs.push(m.type()+': '+m.text()); }); page.on('pageerror',e=>errs.push('pageerror: '+e.message));
+page.on('dialog',async d=>{console.log('DIALOG',d.message()); await d.dismiss();});
+await page.goto(BASE+'shop/?mode=sample',{waitUntil:'networkidle'}); await page.evaluate(()=>localStorage.clear()); await page.reload({waitUntil:'networkidle'}); await page.waitForTimeout(500);
+const shot=async(n)=>{await page.waitForTimeout(400); await page.screenshot({path:`${dir}/${tag}-j4-${n}.png`});};
+const tile=(name)=>page.locator('.tile',{hasText:new RegExp('^\\s*'+name.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'\\s*$')}).first();
+let taps=0;
+for (const n of ['Coffee','Watermelon','Honey Vanilla','Cinnamon Roll','Coconut Lime']){ await tile(n).scrollIntoViewIfNeeded(); await tile(n).click(); taps++; }
+await page.locator('#bar-add').click(); taps++;
+await page.locator('#cart-drawer a[href*="checkout"], #cart-drawer button:has-text("Checkout")').first().click(); taps++; await page.waitForLoadState('networkidle'); await page.waitForTimeout(400);
+// try placing with nothing filled first
+await page.locator('#place-order').click(); taps++; await shot('06-empty-submit'); console.log('validation msg', await page.evaluate(()=>{const i=document.querySelector('#f-name'); return {valid:i.checkValidity(), msg:i.validationMessage, url:location.pathname}}));
+await page.locator('#f-name').click(); await page.keyboard.type('Test Customer'); taps++;
+await page.locator('#f-phone').click(); await page.keyboard.type('2535550100'); taps++;
+await page.getByText('Local delivery',{exact:false}).first().click(); taps++; await shot('07-delivery');
+console.log('after delivery controls', (await page.evaluate(()=>Array.from(document.querySelectorAll('input,textarea,select,label,p,small,.hint')).filter(e=>e.getBoundingClientRect().width>0).map(e=>{const r=e.getBoundingClientRect();return `${e.tagName}${e.id?'#'+e.id:''}${e.name?'[name='+e.name+']':''} "${(e.innerText||e.placeholder||e.value||'').replace(/\s+/g,' ').trim().slice(0,70)}" @${Math.round(r.top+scrollY)}`;}))).join('\n'));
+console.log('radio state after label-text click', JSON.stringify(await page.evaluate(()=>({checked:document.querySelector('input[value=delivery]')?.checked, addr:(()=>{const a=document.querySelector('#f-address'); if(!a) return null; const r=a.getBoundingClientRect(); const cs=getComputedStyle(a); const wrap=a.closest('div,label,fieldset'); return {w:r.width,h:r.height,disp:cs.display,vis:cs.visibility,wrapHidden:wrap?.hidden,wrapDisp:wrap?getComputedStyle(wrap).display:null,wrapHtml:wrap?.outerHTML.slice(0,300)};})()}))));
+const radioBox=await page.locator('input[value=delivery]').boundingBox(); console.log('delivery radio box',JSON.stringify(radioBox));
+await page.locator('label:has-text("Local delivery")').click(); taps++; await page.waitForTimeout(300);
+console.log('radio state after label click', JSON.stringify(await page.evaluate(()=>({checked:document.querySelector('input[value=delivery]')?.checked, pickupChecked:document.querySelector('input[value=pickup]')?.checked, addrVisible:(()=>{const a=document.querySelector('#f-address'); const r=a.getBoundingClientRect(); return r.width>0&&r.height>0&&getComputedStyle(a).visibility!=='hidden';})()}))));
+await shot('07b-after-label-click');
+if(!(await page.locator('#f-address').isVisible())){ await page.locator('input[value=delivery]').click({force:true}); taps++; await page.waitForTimeout(300); console.log('after forced radio click', JSON.stringify(await page.evaluate(()=>({checked:document.querySelector('input[value=delivery]')?.checked, addrVisible:document.querySelector('#f-address').getBoundingClientRect().height>0})))); await shot('07c-after-radio-click'); }
+if(await page.locator('#f-address').isVisible()){ await page.locator('#f-address').click(); await page.keyboard.type('123 Main St, Tacoma WA 98402'); taps++; } else console.log('ADDRESS FIELD STILL NOT VISIBLE — proceeding without');
+await shot('08-filled'); await page.screenshot({path:`${dir}/${tag}-j4-08-filled-full.png`,fullPage:true});
+console.log('order button', await page.locator('#place-order').innerText());
+await page.locator('#place-order').click(); taps++; await page.waitForTimeout(800); await shot('09-confirmation'); await page.screenshot({path:`${dir}/${tag}-j4-09-confirmation-full.png`,fullPage:true});
+console.log('URL', page.url());
+console.log('confirmation text:', await page.evaluate(()=>document.querySelector('main')?.innerText.replace(/\s+/g,' ').trim().slice(0,1500)));
+console.log('links:', JSON.stringify(await page.evaluate(()=>Array.from(document.querySelectorAll('main a')).map(a=>({t:a.innerText.trim(),href:a.getAttribute('href')}))),null,1));
+console.log('header cart:', (await page.locator('#cart-open').innerText()).replace(/\s+/g,' '));
+console.log('localStorage:', await page.evaluate(()=>JSON.stringify(Object.fromEntries(Object.entries(localStorage).map(([k,v])=>[k,String(v).slice(0,300)])))));
+await page.locator('#cart-open').click(); taps++; await shot('10-cart-after'); console.log('cart after:', await page.evaluate(()=>document.querySelector('#cart-drawer')?.innerText.replace(/\s+/g,' ').trim()));
+await page.keyboard.press('Escape'); await page.goto(BASE+'shop/',{waitUntil:'networkidle'}); console.log('cart on shop after order:', (await page.locator('#cart-open').innerText()).replace(/\s+/g,' '));
+const imgs=await page.evaluate(()=>Array.from(document.images).filter(i=>!(i.complete&&i.naturalWidth>0)).map(i=>i.outerHTML.slice(0,200)));
+console.log('taps',taps,'console',JSON.stringify(errs),'broken imgs shop',JSON.stringify(imgs));
+await browser.close();

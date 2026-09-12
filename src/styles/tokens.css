@@ -1,0 +1,36 @@
+/* Valeo Body — design tokens. Light only (brief §4). --line was retired 2026-09-11 (zero hairlines, bar.md #4). */
+:root {
+  --cream:      #F6F1E7;   /* page ground */
+  --cream-2:    #EEE6D6;   /* one step down: footer band, drawer foot */
+  --paper:      #FDFBF6;   /* one step up: form surface, slot fills */
+  --green:      #2F4A2A;
+  --green-2:    #3E5E38;
+  --green-ink:  #1F3320;
+  --sage:       #9DB394;
+  --sage-soft:  #E1E8DB;
+  --gold:       #C9A24A;
+  --ink:        #1F2A1D;
+  --ink-soft:   #5A6657;
+  --ink-mute:   #8A938A;
+  --danger:     #A63D2F;
+
+  --font-display: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
+  --font-text: 'Nunito Sans Variable', 'Nunito Sans', 'Segoe UI', Helvetica, Arial, sans-serif;
+
+  /* selected state: weight + underline, applied identically to tiles, tabs, filters, variants */
+  --sel-weight: 700;
+  --sel-underline: 2px;
+  --sel-offset: 4px;
+
+  --r-sheet: 22px;   /* cart drawer sheet, checkout form surface only */
+  --r-field: 10px;   /* inputs */
+  --r-pill: 999px;   /* true buttons only */
+  --shadow-sheet: 0 10px 40px rgb(31 42 29 / .16);
+  --shadow-bar: 0 -8px 24px rgb(47 74 42 / .10);
+  --gutter: clamp(18px, 5vw, 48px);
+  --max: 1200px;
+  --header-h: 64px;
+  --bar-h: 72px;
+  --ease: cubic-bezier(.2,.7,.2,1);
+  --ease-out: cubic-bezier(.16,1,.3,1);
+}

@@ -1,0 +1,7 @@
+@import '@fontsource/cormorant-garamond/600.css';
+@import '@fontsource/cormorant-garamond/700.css';
+@import '@fontsource/cormorant-garamond/500-italic.css';
+@import '@fontsource-variable/nunito-sans/index.css';
+@import './tokens.css';
+@import './base.css';
+@import './components.css';

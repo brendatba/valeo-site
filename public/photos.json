@@ -1,0 +1,10 @@
+{
+  "_note": "Map of photo slots → files in public/products/. Drop a real photo in, update the path here, done. Fragrance heroes are set per fragrance in data/catalog.json (\"hero\").",
+  "hero": "products/hero-jar.jpg",
+  "flight-slab": "products/flight-slab.jpg",
+  "sample-minis": "products/flight-minis.jpg",
+  "body-butter": "products/jar-body-butter.webp",
+  "sugar-scrub": "products/jar-sugar-scrub.webp",
+  "salt-scrub": "products/jar-sugar-scrub.webp",
+  "coffee-scrub": "products/jar-coffee-scrub.webp"
+}

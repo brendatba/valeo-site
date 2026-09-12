@@ -1,0 +1,13 @@
+import { chromium } from '@playwright/test';
+const BASE='http://localhost:4173/valeo-site/';
+const dir='/Users/newmac/Work/SHAUNA/site-v1/screens/qa';
+const browser=await chromium.launch({args:['--autoplay-policy=no-user-gesture-required']});
+const page=await browser.newPage({viewport:{width:390,height:844},deviceScaleFactor:1});
+const dump=async()=>console.log((await page.evaluate(()=>Array.from(document.querySelectorAll('button,a,[role=button],input,select,label,textarea')).filter(e=>e.getBoundingClientRect().width>0).map(e=>{const r=e.getBoundingClientRect();return `${e.tagName}${e.id?'#'+e.id:''}${e.className?'.'+String(e.className).replace(/\s+/g,'.'):''}${e.dataset.slot!==undefined?'[slot='+e.dataset.slot+']':''}${e.dataset.option?'[opt='+e.dataset.option+']':''} "${(e.innerText||e.value||e.placeholder||e.getAttribute('aria-label')||'').replace(/\s+/g,' ').trim().slice(0,60)}" @${Math.round(r.left)},${Math.round(r.top+scrollY)} ${Math.round(r.width)}x${Math.round(r.height)}`;}))).join('\n'));
+await page.goto(BASE+'shop/?mode=flight&option=C',{waitUntil:'networkidle'}); await page.evaluate(()=>localStorage.clear()); await page.reload({waitUntil:'networkidle'}); await page.waitForTimeout(500);
+console.log('=== FLIGHT C'); await dump();
+await page.screenshot({path:`${dir}/m-j3-00-land.png`}); await page.screenshot({path:`${dir}/m-j3-00-land-full.png`,fullPage:true});
+console.log('emptySrcImgs', JSON.stringify(await page.evaluate(()=>Array.from(document.images).filter(i=>!(i.complete&&i.naturalWidth>0)).map(i=>({outer:i.outerHTML.slice(0,160), vis:i.getBoundingClientRect().width>0})))));
+await page.goto(BASE+'checkout/',{waitUntil:'networkidle'}); await page.waitForTimeout(500);
+console.log('=== CHECKOUT (empty cart)'); await dump(); await page.screenshot({path:`${dir}/m-j4-checkout-empty.png`, fullPage:true});
+await browser.close();
