@@ -277,5 +277,5 @@ pre.order-text { white-space: pre-wrap; font-family: ui-monospace, SFMono-Regula
 .stage-rail span.on { background: var(--green); }
 .stage-hint { position: absolute; top: calc(var(--header-h) + 12px); left: var(--gutter); z-index: 3; font-size: .85rem; color: var(--green-ink); }
 .stage-hint span { display: inline-block; padding: 6px 12px; border-radius: 999px; background: rgb(246 241 231 / .82); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
-@media (max-width: 719px) { .stage { background: var(--bg, color-mix(in srgb, var(--tint, transparent) 10%, var(--cream))); } .stage .pworld img, .stage .pworld video { object-fit: contain; } }
+@media (max-width: 719px) { .stage { background: var(--bg, color-mix(in srgb, var(--tint, transparent) 10%, var(--cream))); } }
 @media (min-width: 900px) { .stage-text { left: auto; right: var(--gutter); bottom: 48px; max-width: 380px; padding: 20px 24px; } .stage-jar { width: clamp(220px, 24vw, 340px); } }

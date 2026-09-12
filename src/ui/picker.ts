@@ -25,7 +25,8 @@ const X = `<svg width="12" height="12" viewBox="0 0 20 20" fill="none" stroke="c
 const defaultProduct = catalog.products[0].id;
 const defaultSize = catalog.sizes.find((s) => s.id === '4oz')?.id ?? catalog.sizes[0].id;
 const thumb = (f: Fragrance | undefined) => (f?.thumb ? asset(f.thumb) : f?.hero ? asset(f.hero) : '');
-const productPhoto = (id: string) => asset((photos as Record<string, string>)[id] ?? product(id).image);
+const productPhoto = (id: string) => asset(`products/p-${id}.webp`);
+void photos;
 
 function numberWord(n: number): string { return ['Zero', 'One', 'Two', 'Three', 'Four', 'Five', 'Six', 'Seven', 'Eight', 'Nine', 'Ten', 'Eleven', 'Twelve', 'Thirteen', 'Fourteen', 'Fifteen', 'Sixteen', 'Seventeen', 'Eighteen', 'Nineteen', 'Twenty'][n] ?? String(n); }
 function emptySlots(option: string): (Pick | null)[] { return flight(option).slots.map(() => null); }
@@ -301,7 +302,7 @@ export function mountPicker(root: HTMLElement): void {
     for (const p of catalog.products) {
       const allowed = !slotDef?.kind || p.kind === slotDef.kind;
       const o = el('button', { type: 'button', class: 'ptile', 'aria-pressed': String(p.id === currentProduct), 'data-product': p.id, disabled: !allowed });
-      o.innerHTML = `<span class="ptile-img"><img src="${productPhoto(p.id)}" alt="" width="120" height="120" loading="lazy"><span class="check" aria-hidden="true">${CHECK}</span></span><span class="name">${escapeHtml(p.name)}</span>`;
+      o.innerHTML = `<span class="ptile-img"><img src="${productPhoto(p.id)}" alt="" width="130" height="130" ${p.id === defaultProduct ? 'fetchpriority="high"' : ''}><span class="check" aria-hidden="true">${CHECK}</span></span><span class="name">${escapeHtml(p.name)}</span>`;
       o.addEventListener('click', () => setProduct(p.id));
       prodOpts.append(o);
     }
@@ -353,8 +354,8 @@ export function mountPicker(root: HTMLElement): void {
     if (state.mode === 'single') {
       const s = state.single; const ready = !!s.fragrance && isAvailable(s);
       setThumb(s.fragrance ? fragrance(s.fragrance) : undefined);
-      barL1.textContent = s.fragrance ? `${fragranceName(s.fragrance, s.otherText)} · ${product(s.product).name} · ${size(s.size).label}` : 'Pick a scent to start';
-      barL2.textContent = s.fragrance ? `${money(jarPrice(s))} per jar` : `${product(s.product).name} · ${size(s.size).label}`;
+      barL1.textContent = s.fragrance ? fragranceName(s.fragrance, s.otherText) : 'Pick a scent to start';
+      barL2.textContent = `${product(s.product).name} · ${size(s.size).label}${s.fragrance ? ` · ${money(jarPrice(s))}` : ''}`;
       barLabel.textContent = state.editId ? 'Update' : compact ? 'Add' : 'Add to cart'; barPrice.textContent = money(jarPrice(s)); barAdd.disabled = !ready;
     } else if (state.mode === 'flight') {
       const f = flight(state.option);

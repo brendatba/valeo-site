@@ -39,7 +39,15 @@ export function mountPassage(section: HTMLElement): void {
     for (const v of videos) {
       if (!v?.dataset.src) continue;
       const url = (phone && v.dataset.srcP) || v.dataset.src;
-      try { const blob = await (await fetch(url)).blob(); v.src = URL.createObjectURL(blob); } catch { /* poster stays */ }
+      try {
+        const blob = await (await fetch(url)).blob();
+        v.preload = 'auto';
+        v.src = URL.createObjectURL(blob);
+        v.load();
+        // Safari renders seeks only once the element has started playback once; muted + playsinline allows this without a gesture.
+        await new Promise<void>((res) => { const done = () => res(); v.addEventListener('loadeddata', done, { once: true }); setTimeout(done, 4000); });
+        try { await v.play(); v.pause(); v.currentTime = 0; } catch { /* stills still crossfade */ }
+      } catch { /* poster stays */ }
     }
   };
   const arm = () => new IntersectionObserver((es, io) => { if (es.some((e) => e.isIntersecting)) { io.disconnect(); load(); } }, { rootMargin: '40% 0px' }).observe(section);
@@ -69,7 +77,7 @@ export function mountPassage(section: HTMLElement): void {
     setActive(i);
     // scrub the live clip across its window
     const v = videos[i];
-    if (v && v.readyState >= 1 && v.duration) {
+    if (v && v.duration) {
       const local = (p - i * slot) / slot;
       const t = Math.min(v.duration - 0.05, local * v.duration);
       if (Math.abs(v.currentTime - t) > 0.04) v.currentTime = t;

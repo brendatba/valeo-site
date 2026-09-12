@@ -23,12 +23,12 @@ test('R3: swatch selection updates the sticky bar and price-in-button; keyboard 
   await expect(page.locator('#bar-add')).toBeDisabled();
   await page.getByRole('button', { name: /^Pistachio Salted Caramel/ }).click();
   await expect(page.locator('.tile[aria-pressed="true"]')).toHaveAttribute('data-id', 'pistachio-salted-caramel');
-  await expect(page.locator('#bar-l1')).toHaveText('Pistachio Salted Caramel · Body Butter · 4 oz');
+  await expect(page.locator('#bar-l1')).toHaveText('Pistachio Salted Caramel'); await expect(page.locator('#bar-l2')).toHaveText('Body Butter · 4 oz · $15');
   await expect(page.locator('#bar-price')).toHaveText('$15');
   await page.locator('[data-size="8oz"]').click();
   await expect(page.locator('#bar-price')).toHaveText('$25');
   await page.locator('[data-product="coffee-scrub"]').click();
-  await expect(page.locator('#bar-l1')).toHaveText('Pistachio Salted Caramel · Coffee Scrub · 8 oz');
+  await expect(page.locator('#bar-l2')).toHaveText('Coffee Scrub · 8 oz · $25');
   await page.locator('[data-size="16oz"]').click();
   await expect(page.locator('#bar-price')).toHaveText('$35');
   // keyboard: focus a tile, arrow right, Enter selects
@@ -54,7 +54,7 @@ test('"Other" opens a text field and is priced like any fragrance', async ({ pag
   await page.locator('.tile[data-id="other"]').click();
   await expect(page.locator('#other')).toBeVisible();
   await page.locator('#other-text').fill('Rose');
-  await expect(page.locator('#bar-l1')).toHaveText('Other: Rose · Body Butter · 4 oz');
+  await expect(page.locator('#bar-l1')).toHaveText('Other: Rose');
   await expect(page.locator('#bar-price')).toHaveText('$15');
 });
 

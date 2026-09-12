@@ -1,14 +1,16 @@
 // Reviewer evidence pack: viewport screenshots of a real shopper's path on mobile + desktop, plus scroll captures of the home passage.
 // Usage: node scripts/walkthrough.mjs <label>   → screens/<label>/
-import { chromium } from '@playwright/test';
+import { chromium, webkit } from '@playwright/test';
 import { mkdirSync } from 'node:fs';
 const label = process.argv[2] ?? 'walk';
 const BASE = process.env.WALK_BASE ?? 'http://localhost:4173/valeo-site/';
 const dir = `screens/${label}`; mkdirSync(dir, { recursive: true });
-const browser = await chromium.launch({ args: ['--autoplay-policy=no-user-gesture-required'] });
+const engine = process.env.WALK_BROWSER === 'webkit' ? webkit : chromium;
+const browser = await engine.launch(engine === chromium ? { args: ['--autoplay-policy=no-user-gesture-required'] } : {});
 const log = [];
 for (const [w, h, tag] of [[390, 844, 'mobile'], [1280, 800, 'desktop']]) {
-  const page = await browser.newPage({ viewport: { width: w, height: h }, deviceScaleFactor: 1 });
+  const page = await browser.newPage({ viewport: { width: w, height: h }, deviceScaleFactor: 1, ...(engine === webkit && w < 700 ? { userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Mobile/15E148 Safari/604.1', isMobile: true, hasTouch: true } : {}) });
+  const errs = []; page.on('pageerror', (e) => errs.push('PAGEERROR ' + e.message)); page.on('console', (m) => { if (m.type() === 'error') errs.push('CONSOLE ' + m.text().slice(0, 160)); });
   const shot = async (name) => { await page.waitForTimeout(500); await page.screenshot({ path: `${dir}/${tag}-${name}.png` }); };
   // HOME: hero, then the passage at 5 scroll depths, then after the passage
   await page.goto(BASE, { waitUntil: 'networkidle' });
@@ -45,6 +47,7 @@ for (const [w, h, tag] of [[390, 844, 'mobile'], [1280, 800, 'desktop']]) {
   await page.fill('#f-name', 'Sample Customer'); await page.fill('#f-phone', '253-555-0100'); await page.locator('#place-order').click(); await page.locator('#order-number').waitFor(); await shot('41-confirmation');
   const m = await page.evaluate(() => ({ scrollW: document.documentElement.scrollWidth, innerW: innerWidth }));
   log.push(`${tag} horizontal overflow: ${m.scrollW > m.innerW ? 'YES (' + m.scrollW + ')' : 'none'}`);
+  if (errs.length) log.push(`${tag} errors: ` + errs.slice(0, 6).join(' | '));
   await page.close();
 }
 await browser.close();
