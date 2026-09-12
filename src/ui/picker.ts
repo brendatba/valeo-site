@@ -52,7 +52,7 @@ export function mountPicker(root: HTMLElement): void {
       <h1 id="picker-title">Pick your scent</h1>
       <p class="muted" id="picker-sub"></p>
     </div>
-    <div class="picker-modes" id="modes" role="tablist" aria-label="What are you building"></div>
+    <div class="picker-modes modes" id="modes" role="tablist" aria-label="What are you building"></div>
     <section class="zone" aria-labelledby="frag-title">
       <div id="builder"></div>
       <div class="zone-title"><h2 id="frag-title">Fragrance</h2><span class="hint" id="frag-hint"></span></div>
