@@ -76,7 +76,7 @@
 .slot .slot-img { width: 44px; height: 44px; border-radius: 8px; overflow: hidden; flex: 0 0 auto; margin-right: 10px; background: var(--cream-2); }
 .slot .slot-img img { width: 100%; height: 100%; object-fit: cover; }
 .slot .slot-img.blank { background: rgb(47 74 42 / .06); }
-.bar-thumb { width: 44px; height: 44px; border-radius: 8px; overflow: hidden; flex: 0 0 auto; background: color-mix(in srgb, var(--tint, transparent) 40%, var(--cream-2)); }
+.bar-thumb { width: 40px; height: 40px; border-radius: 8px; overflow: hidden; flex: 0 0 auto; background: color-mix(in srgb, var(--tint, transparent) 40%, var(--cream-2)); }
 .bar-thumb:empty { display: none; }
 .bar-thumb img { width: 100%; height: 100%; object-fit: cover; }
 .world-sel { font-weight: 700; color: var(--green-ink); }
@@ -136,11 +136,11 @@
 .totals .row.total { color: var(--green-ink); font-family: var(--font-display); font-weight: 600; font-size: 1.5rem; margin-top: 8px; }
 
 /* ---------- Sticky bottom bar: the one filled control ---------- */
-.bar { position: fixed; left: 0; right: 0; bottom: var(--vv-offset, 0px); z-index: 50; background: rgb(246 241 231 / .97); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: var(--shadow-bar); padding: 12px var(--gutter) calc(12px + env(safe-area-inset-bottom)); }
+.bar { position: fixed; left: 0; right: 0; bottom: var(--vv-offset, 0px); z-index: 50; background: var(--paper); box-shadow: var(--shadow-bar); padding: 10px var(--gutter) calc(10px + env(safe-area-inset-bottom)); }
 .bar .wrap { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
 .bar .summary { display: grid; min-width: 0; }
 .bar .summary .line1 { font-family: var(--font-display); font-weight: 600; font-size: 1.05rem; line-height: 1.12; color: var(--green-ink); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
-.bar .summary .line2 { font-size: .82rem; color: var(--ink-soft); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bar .summary .line2 { font-size: .82rem; color: var(--ink-soft); }
 .bar .btn { flex: 0 0 auto; padding: 0 18px; }
 @media (max-width: 419px) { .bar .btn { padding: 0 14px; font-size: .95rem; } .bar .wrap { gap: 10px; } }
 .bar .btn .price { padding-left: 8px; margin-left: 6px; border-left: 1px solid rgb(255 255 255 / .35); }
@@ -263,11 +263,10 @@ pre.order-text { white-space: pre-wrap; font-family: ui-monospace, SFMono-Regula
 .stage .pworld { position: absolute; inset: 0; opacity: 0; transition: opacity .55s var(--ease-out); }
 .stage .pworld.is-live { opacity: 1; }
 .stage .pworld img, .stage .pworld video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-.stage .pworld img.blur { display: none; }
-@media (max-width: 719px) { .stage .pworld img.blur { display: block; filter: blur(28px) saturate(1.1); transform: scale(1.15); } .stage .pworld img:not(.blur), .stage .pworld video { object-fit: contain; } }
+
 .stage .pworld video { opacity: 0; transition: opacity .4s; }
 .stage .pworld.is-live video[src] { opacity: 1; }
-.stage-jar { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -54%); width: clamp(150px, 30vw, 300px); z-index: 2; pointer-events: none; }
+.stage-jar { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -54%); width: clamp(150px, 40vw, 300px); z-index: 2; pointer-events: none; }
 .stage-jar img { width: 100%; height: auto; filter: drop-shadow(0 30px 40px rgb(47 74 42 / .22)); }
 .stage-text { position: absolute; left: var(--gutter); right: var(--gutter); bottom: max(28px, env(safe-area-inset-bottom)); z-index: 3; display: grid; gap: 6px; padding: 16px 20px; border-radius: 12px; background: rgb(246 241 231 / .82); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); max-width: 520px; }
 .stage-text .stop-name { font-family: var(--font-display); font-weight: 600; font-size: clamp(1.9rem, 6vw, 3rem); line-height: 1; color: var(--green-ink); }
@@ -278,4 +277,5 @@ pre.order-text { white-space: pre-wrap; font-family: ui-monospace, SFMono-Regula
 .stage-rail span.on { background: var(--green); }
 .stage-hint { position: absolute; top: calc(var(--header-h) + 12px); left: var(--gutter); z-index: 3; font-size: .85rem; color: var(--green-ink); }
 .stage-hint span { display: inline-block; padding: 6px 12px; border-radius: 999px; background: rgb(246 241 231 / .82); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+@media (max-width: 719px) { .stage { background: var(--bg, color-mix(in srgb, var(--tint, transparent) 10%, var(--cream))); } .stage .pworld img, .stage .pworld video { object-fit: contain; } }
 @media (min-width: 900px) { .stage-text { left: auto; right: var(--gutter); bottom: 48px; max-width: 380px; padding: 20px 24px; } .stage-jar { width: clamp(220px, 24vw, 340px); } }

@@ -107,7 +107,7 @@ export function mountPicker(root: HTMLElement): void {
     const m = isOther ? undefined : mood(f.mood);
     const img = thumb(f);
     const t = el('button', { type: 'button', class: `tile${isOther ? ' other' : ''}`, 'data-id': f.id, 'aria-pressed': 'false' });
-    t.innerHTML = `<span class="tile-img" style="--tint:${f.tint}">${img ? `<img src="${img}" alt="" width="480" height="320" loading="lazy" decoding="async">` : isOther ? `<span class="plus" aria-hidden="true">+</span>` : ''}<span class="check" aria-hidden="true">${CHECK}</span><span class="slotnum" aria-hidden="true"></span></span><span class="name">${escapeHtml(f.name)}</span>`;
+    t.innerHTML = `<span class="tile-img" style="--tint:${f.tint}">${img ? `<img src="${img}" alt="" width="400" height="267" loading="lazy" decoding="async">` : isOther ? `<span class="plus" aria-hidden="true">+</span>` : ''}<span class="check" aria-hidden="true">${CHECK}</span><span class="slotnum" aria-hidden="true"></span></span><span class="name">${escapeHtml(f.name)}</span>`;
     t.setAttribute('aria-label', isOther ? 'Other fragrance (type your own)' : `${f.name}${m ? `, ${m.label}` : ''}`);
     t.addEventListener('click', () => pickFragrance(f.id));
     tiles.set(f.id, t);
@@ -125,6 +125,7 @@ export function mountPicker(root: HTMLElement): void {
   });
   otherInput.addEventListener('input', () => { const p = currentPick(); if (p) p.otherText = otherInput.value; update(false); });
   barAdd.addEventListener('click', addToCart);
+  matchMedia('(max-width: 419px)').addEventListener('change', () => renderBar());
 
   // ----- Actions -----
   function currentPick(): Pick | { fragrance: string | null; otherText: string; product: string } | null {
@@ -266,7 +267,7 @@ export function mountPicker(root: HTMLElement): void {
       });
       box.append(slots);
       const totals = el('div', { class: 'totals', id: 'flight-totals' });
-      totals.innerHTML = `<div class="row"><span>Jars at retail</span><span class="price" data-t="retail">${money(b.retail)}</span></div><div class="row saving"><span>Flight savings (${Math.round(catalog.bundles.slab.discount * 100)}% off)</span><span class="price" data-t="discount">−${money(b.discount)}</span></div><div class="row"><span>${escapeHtml(catalog.bundles.slab.name)}</span><span class="price" data-t="slab">${money(b.slab)}</span></div><div class="row total"><span>Flight total</span><span class="price" data-t="total">${money(b.total)}</span></div>`;
+      totals.innerHTML = `<div class="row"><span>${b.slots} jars at retail</span><span class="price" data-t="retail">${money(b.retail)}</span></div><div class="row saving"><span>Flight savings (${Math.round(catalog.bundles.slab.discount * 100)}% off)</span><span class="price" data-t="discount">−${money(b.discount)}</span></div><div class="row"><span>${escapeHtml(catalog.bundles.slab.name)}</span><span class="price" data-t="slab">${money(b.slab)}</span></div><div class="row total"><span>Flight total</span><span class="price" data-t="total">${money(b.total)}</span></div>`;
       box.append(totals);
     } else {
       const s = sampleTotal(state.sample.minis.length);
@@ -347,21 +348,22 @@ export function mountPicker(root: HTMLElement): void {
   }
 
   function renderBar(): void {
+    const compact = matchMedia('(max-width: 419px)').matches;
     const setThumb = (f?: Fragrance) => { const t = thumb(f); barThumb.innerHTML = t ? `<img src="${t}" alt="">` : ''; barThumb.style.setProperty('--tint', f?.tint ?? 'transparent'); };
     if (state.mode === 'single') {
       const s = state.single; const ready = !!s.fragrance && isAvailable(s);
       setThumb(s.fragrance ? fragrance(s.fragrance) : undefined);
       barL1.textContent = s.fragrance ? `${fragranceName(s.fragrance, s.otherText)} · ${product(s.product).name} · ${size(s.size).label}` : 'Pick a scent to start';
       barL2.textContent = s.fragrance ? `${money(jarPrice(s))} per jar` : `${product(s.product).name} · ${size(s.size).label}`;
-      barLabel.textContent = state.editId ? 'Update cart' : 'Add to cart'; barPrice.textContent = money(jarPrice(s)); barAdd.disabled = !ready;
+      barLabel.textContent = state.editId ? 'Update' : compact ? 'Add' : 'Add to cart'; barPrice.textContent = money(jarPrice(s)); barAdd.disabled = !ready;
     } else if (state.mode === 'flight') {
       const f = flight(state.option);
       const b = flightTotal(state.option, state.flight.slots.map((s, i) => (s ? { product: s.product, size: f.slots[i].size } : null)));
       const last = [...state.flight.slots].reverse().find(Boolean);
       setThumb(last ? fragrance(last.fragrance) : undefined);
       barL1.textContent = `Option ${state.option} · ${b.filled} of ${b.slots} jars`;
-      barL2.textContent = b.complete ? `${money(b.retail)} retail − ${money(b.discount)} + ${money(b.slab)} slab` : `Choose ${b.slots - b.filled} more jar${b.slots - b.filled === 1 ? '' : 's'}`;
-      barLabel.textContent = state.editId ? 'Update flight' : 'Add flight';
+      barL2.textContent = b.complete ? `${money(b.retail)} − ${money(b.discount)} + ${money(b.slab)} slab` : `${b.slots - b.filled} more jar${b.slots - b.filled === 1 ? '' : 's'} to go`;
+      barLabel.textContent = state.editId ? 'Update' : compact ? 'Add' : 'Add flight';
       barPrice.textContent = money(flightTotal(state.option, f.slots.map((s) => ({ product: s.kind === 'scrub' ? catalog.products.find((p) => p.kind === 'scrub')!.id : defaultProduct, size: s.size }))).total);
       barAdd.disabled = !b.complete;
     } else {
@@ -370,7 +372,7 @@ export function mountPicker(root: HTMLElement): void {
       setThumb(last ? fragrance(last.fragrance) : undefined);
       barL1.textContent = `Minis · ${s.count} of ${s.setSize}`;
       barL2.textContent = s.isSet ? `Set price ${money(s.setPrice)}` : s.count ? `${money(s.each)} each · add ${s.setSize - s.count} more for the ${money(s.setPrice)} set` : `Pick up to ${s.setSize} scents`;
-      barLabel.textContent = state.editId ? 'Update minis' : 'Add minis'; barPrice.textContent = money(s.count ? s.total : s.setPrice); barAdd.disabled = s.count === 0;
+      barLabel.textContent = state.editId ? 'Update' : compact ? 'Add' : 'Add minis'; barPrice.textContent = money(s.count ? s.total : s.setPrice); barAdd.disabled = s.count === 0;
     }
   }
 

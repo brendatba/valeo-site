@@ -26,7 +26,11 @@ export function mountPassage(section: HTMLElement): void {
 
   // Stills beyond the first attach when the passage is near; clips are fetched one at a time, in order,
   // as blobs (so seeking is instant), and only after the page has finished its first load.
-  const attachStills = () => worlds.forEach((w) => w.querySelectorAll<HTMLImageElement>('img[data-src]').forEach((img) => { if (img.dataset.srcset) img.srcset = img.dataset.srcset; img.src = img.dataset.src!; delete img.dataset.src; }));
+  const phone = matchMedia('(max-width: 719px)').matches;
+  const attachStills = () => worlds.forEach((w) => {
+    w.querySelectorAll<HTMLSourceElement>('source[data-srcset]').forEach((src) => { src.srcset = src.dataset.srcset!; delete src.dataset.srcset; });
+    w.querySelectorAll<HTMLImageElement>('img[data-src]').forEach((img) => { if (img.dataset.srcset) img.srcset = img.dataset.srcset; img.src = img.dataset.src!; delete img.dataset.src; });
+  });
   const load = async () => {
     if (loaded) return;
     loaded = true;
@@ -34,7 +38,8 @@ export function mountPassage(section: HTMLElement): void {
     if (skipMotion) return;
     for (const v of videos) {
       if (!v?.dataset.src) continue;
-      try { const blob = await (await fetch(v.dataset.src)).blob(); v.src = URL.createObjectURL(blob); } catch { /* poster stays */ }
+      const url = (phone && v.dataset.srcP) || v.dataset.src;
+      try { const blob = await (await fetch(url)).blob(); v.src = URL.createObjectURL(blob); } catch { /* poster stays */ }
     }
   };
   const arm = () => new IntersectionObserver((es, io) => { if (es.some((e) => e.isIntersecting)) { io.disconnect(); load(); } }, { rootMargin: '40% 0px' }).observe(section);
@@ -49,6 +54,7 @@ export function mountPassage(section: HTMLElement): void {
     if (noteEl) noteEl.innerHTML = w.dataset.noteHtml ?? '';
     rail?.querySelectorAll('span').forEach((s, j) => s.classList.toggle('on', j === i));
     section.style.setProperty('--tint', w.dataset.tint ?? 'transparent');
+    section.style.setProperty('--bg', w.dataset.bg || 'transparent');
   };
 
   let ticking = false;
