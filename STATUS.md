@@ -29,5 +29,5 @@
 6. **Photos**: all renders are placeholders; swap via `public/photos.json` and each fragrance's `hero` field.
 
 ## After merge
-- Edit `.github/workflows/deploy.yml` branches to `[main]` only.
+- Edit `.github/workflows/deploy.yml` branches to `[main]` only, and remove `v2` from the `github-pages` environment's deployment branches.
 - When `valeobody.com` is attached: set `BASE_PATH: /` in the workflow and add the CNAME in Pages settings.
