@@ -362,7 +362,7 @@ export function mountPicker(root: HTMLElement): void {
       const last = [...state.flight.slots].reverse().find(Boolean);
       setThumb(last ? fragrance(last.fragrance) : undefined);
       barL1.textContent = `Option ${state.option} · ${b.filled} of ${b.slots} jars`;
-      barL2.textContent = b.complete ? `${money(b.retail)} − ${money(b.discount)} + ${money(b.slab)} slab` : `${b.slots - b.filled} more jar${b.slots - b.filled === 1 ? '' : 's'} to go`;
+      barL2.textContent = b.complete ? `${money(b.total)} all in · ${money(b.discount)} saved` : `${b.slots - b.filled} more jar${b.slots - b.filled === 1 ? '' : 's'} to go`;
       barLabel.textContent = state.editId ? 'Update' : compact ? 'Add' : 'Add flight';
       barPrice.textContent = money(flightTotal(state.option, f.slots.map((s) => ({ product: s.kind === 'scrub' ? catalog.products.find((p) => p.kind === 'scrub')!.id : defaultProduct, size: s.size }))).total);
       barAdd.disabled = !b.complete;
