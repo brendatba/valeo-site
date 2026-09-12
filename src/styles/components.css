@@ -197,7 +197,7 @@ body.drawer-open .drawer-backdrop { opacity: 1; pointer-events: auto; }
 .hero-cta { display: flex; gap: 22px; flex-wrap: wrap; align-items: center; }
 .hero-jar { justify-self: center; width: min(62vw, 300px); }
 .hero-jar img { width: 100%; height: auto; filter: drop-shadow(0 22px 30px rgb(47 74 42 / .14)); }
-@media (max-width: 719px) { .hero .wrap { grid-template-columns: 1fr; } .hero-jar { display: none; } .hero-copy .lede { display: none; } .hero { padding: 26px 0 30px; } }
+@media (max-width: 719px) { .hero .wrap { grid-template-columns: 1fr; } .hero-jar { display: none; } .hero-copy { gap: 8px; } .hero-copy h1 { font-size: 2.25rem; } .hero-copy .tagline { font-size: 1.3rem; } .hero-copy .lede { display: none; } .pillars { font-size: .85rem; } .hero { padding: 12px 0 14px; } .hero-cta .btn { min-height: 46px; } .passage { margin-top: 0; } }
 @media (min-width: 720px) { .hero { padding: 64px 0 40px; } .hero .wrap { grid-template-columns: 1.1fr .9fr; gap: 48px; } .hero-jar { width: min(34vw, 420px); } }
 
 /* Sections after the passage */
