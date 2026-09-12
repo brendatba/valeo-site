@@ -1,0 +1,31 @@
+/* Valeo Body — design tokens. Light theme only (brief §4). */
+:root {
+  --cream:      #F6F1E7;
+  --cream-2:    #EFE7D8;
+  --paper:      #FFFDF9;
+  --green:      #2F4A2A;
+  --green-2:    #3E5E38;
+  --green-ink:  #1F3320;
+  --sage:       #9DB394;
+  --sage-soft:  #DCE5D6;
+  --gold:       #C9A24A;
+  --gold-soft:  #EBDDB4;
+  --tan:        #E7D9BF;
+  --ink:        #1F2A1D;
+  --ink-soft:   #5A6657;
+  --ink-mute:   #8A938A;
+  --line:       #E2DACB;
+  --danger:     #A63D2F;
+
+  --font-display: 'Cormorant Garamond', 'Times New Roman', Georgia, serif;
+  --font-text: 'Nunito Sans Variable', 'Nunito Sans', 'Segoe UI', Helvetica, Arial, sans-serif;
+
+  --r-sm: 8px; --r-md: 14px; --r-lg: 22px; --r-pill: 999px;
+  --shadow-sm: 0 1px 2px rgb(47 74 42 / .08), 0 2px 8px rgb(47 74 42 / .06);
+  --shadow-md: 0 6px 24px rgb(47 74 42 / .12);
+  --gutter: clamp(16px, 4vw, 40px);
+  --max: 1180px;
+  --header-h: 60px;
+  --bar-h: 76px;
+  --ease: cubic-bezier(.2,.7,.2,1);
+}
